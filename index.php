@@ -30,7 +30,7 @@
 			header('Location:index.php?err=Email tidak boleh kosong');
 		} else if ( $_POST['password'] == '') {
 			$pindah = 3;
-			header('Location:index.php?err=Password tidak boleh kosong');
+			header('Location:index.php?err=Password cannot be empty !');
 		} else {
 			header("Location:dashboard.php");
 		}
@@ -123,7 +123,8 @@
 		let getEmail    	= document.getElementById("emailnya").value
 		let getPassword 	= document.getElementById("passwordnya").value
 		let validOrInvalid  = '';
-		console.log(getNama);
+		let panjangPassword = getPassword.length
+		// console.log(getNama);
 		let mailFormat =  /\S+@\S+\.\S+/;
 		if (getEmail.match(mailFormat)) {
 			validOrInvalid = 'valid'
@@ -147,7 +148,7 @@
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
 
-			document.querySelector('#password').innerHTML = 'Password tidak boleh kosong'
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
@@ -163,7 +164,7 @@
 			document.querySelector('#email').style.marginRight = 'auto'
 			document.querySelector('#emailnya').focus()
 
-			document.querySelector('#password').innerHTML = 'Password tidak boleh kosong'
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
@@ -179,17 +180,20 @@
 			document.querySelector('#nama').style.marginRight = 'auto'
 			document.querySelector('#namanya').focus()
 
-			document.querySelector('#password').innerHTML = 'Password tidak boleh kosong'
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
 			
 
-		} else if (getNama == '' && validOrInvalid == 'invalid') {
-			document.querySelector('#password').innerHTML = ''
+		} else if (getNama == '' && validOrInvalid == 'invalid' && panjangPassword < 5) {
+			document.querySelector('#password').innerHTML = 'Minimum 5 Character'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
 
 			document.querySelector('#namanya').focus()
-			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
+			document.querySelector('#nama').innerHTML = 'Name Cannot be empty !'
 			document.querySelector('#nama').style.color = 'red'
 			document.querySelector('#nama').style.fontSize = '11px'
 			document.querySelector('#nama').style.marginRight = 'auto'
@@ -200,7 +204,12 @@
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
 
-		} else if (getNama == '' && validOrInvalid == 'valid') {
+		} else if (getNama == '' && validOrInvalid == 'valid'  && panjangPassword < 5) {
+
+			document.querySelector('#password').innerHTML = 'Minimum 5 Character'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
 
 			document.querySelector('#namanya').focus()
 			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
@@ -210,8 +219,6 @@
 			document.querySelector('#nama').style.display = 'block'
 
 			document.querySelector('#email').innerHTML = ''
-
-			document.querySelector('#password').innerHTML = ''
 
 		} else if (getNama == '') {
 
@@ -242,30 +249,52 @@
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
 
-			document.querySelector('#password').innerHTML = 'Password tidak boleh kosong'
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
 			
-		} else if (validOrInvalid == 'invalid') {
+		} else if (validOrInvalid == 'invalid' && panjangPassword < 5) {
 
 			document.querySelector('#emailnya').focus()
 			document.querySelector('#nama').innerHTML 		= ''
-			document.querySelector('#password').innerHTML 	= ''
+
 			document.querySelector('#email').innerHTML = 'Format Email Invalid !'
 			document.querySelector('#email').style.color = 'red'
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
+			document.querySelector('#password').innerHTML = 'Minimum 5 Character'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
+		} else if (validOrInvalid == 'invalid') {
+
+			document.querySelector('#emailnya').focus()
+			document.querySelector('#nama').innerHTML 		= ''
+			document.querySelector('#password').innerHTML   = ''
+
+			document.querySelector('#email').innerHTML = 'Format Email Invalid !'
+			document.querySelector('#email').style.color = 'red'
+			document.querySelector('#email').style.fontSize = '11px'
+			document.querySelector('#email').style.marginRight = 'auto'
+
 		} else if (getPassword == '') {
 
 			document.querySelector('#passwordnya').focus()
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#email').innerHTML = ''
-			document.querySelector('#password').innerHTML = 'Password tidak boleh kosong'
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
 			
+		} else if (panjangPassword < 5) {
+			document.querySelector('#nama').innerHTML 		= ''
+			document.querySelector('#email').innerHTML 		= ''
+			document.querySelector('#password').innerHTML 	= 'Minimum 5 Character'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
 		} else {
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#email').innerHTML = ''
@@ -278,7 +307,6 @@
 
 			// 	}
 			// })
-
 		}
 	})
 
