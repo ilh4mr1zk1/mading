@@ -45,8 +45,8 @@
 			<input type="password" id="passwordnya" name="password" placeholder="Password" />
 			<small id="password"></small>
 			<select id="roleidnya" name="role_id">
-				<?php foreach ($roleId as $id): ?>
-					<option value="<?= $id; ?>"> <?= $role[$id]; ?> </option>
+				<?php foreach ($execGetRole as $role): ?>
+					<option value="<?= $role['id']; ?>"> <?= $role['name_role']; ?> </option>
 				<?php endforeach ?>
 			</select>
 			<button type="submit" id="daftar" name="sign_up">Sign Up</button>
