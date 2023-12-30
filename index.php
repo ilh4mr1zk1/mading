@@ -1,13 +1,6 @@
 <?php  
 
-	$server    = "localhost";
-	$username  = "root";
-	$password  = "";
-	$database  = "mading_practice";
-	$conn  	   = mysqli_connect($server, $username, $password, $database);
-
-	$queryGetRole = "SELECT * FROM role";
-	$execGetRole  = mysqli_query($conn, $queryGetRole);
+	require 'connection.php';
 
 	$roleId = [0,1,2,3];
 	$role   = [
@@ -51,7 +44,7 @@
 			<small id="email"></small>
 			<input type="password" id="passwordnya" name="password" placeholder="Password" />
 			<small id="password"></small>
-			<select name="role_id">
+			<select id="roleidnya" name="role_id">
 				<?php foreach ($roleId as $id): ?>
 					<option value="<?= $id; ?>"> <?= $role[$id]; ?> </option>
 				<?php endforeach ?>
@@ -92,9 +85,10 @@
 		let getNama     	= document.getElementById("namanya").value
 		let getEmail    	= document.getElementById("emailnya").value
 		let getPassword 	= document.getElementById("passwordnya").value
+		let getRoleId 		= document.getElementById("roleidnya").value
 		let validOrInvalid  = '';
 		let panjangPassword = getPassword.length
-		// console.log(getNama);
+
 		let mailFormat =  /\S+@\S+\.\S+/;
 		if (getEmail.match(mailFormat)) {
 			validOrInvalid = 'valid'
@@ -108,12 +102,12 @@
 
 			document.querySelector('#namanya').focus()
 
-			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
 			document.querySelector('#nama').style.color = 'red'
 			document.querySelector('#nama').style.fontSize = '11px'
 			document.querySelector('#nama').style.marginRight = 'auto'
 
-			document.querySelector('#email').innerHTML = 'Email tidak boleh kosong'
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
 			document.querySelector('#email').style.color = 'red'
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
@@ -128,7 +122,7 @@
 
 			document.querySelector('#nama').innerHTML = ''
 
-			document.querySelector('#email').innerHTML = 'Email tidak boleh kosong'
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
 			document.querySelector('#email').style.color = 'red'
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
@@ -144,7 +138,7 @@
 
 			document.querySelector('#email').innerHTML = ''
 
-			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
 			document.querySelector('#nama').style.color = 'red'
 			document.querySelector('#nama').style.fontSize = '11px'
 			document.querySelector('#nama').style.marginRight = 'auto'
@@ -182,7 +176,7 @@
 			document.querySelector('#password').style.marginRight = 'auto'
 
 			document.querySelector('#namanya').focus()
-			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
 			document.querySelector('#nama').style.color = 'red'
 			document.querySelector('#nama').style.fontSize = '11px'
 			document.querySelector('#nama').style.marginRight = 'auto'
@@ -193,7 +187,7 @@
 		} else if (getNama == '') {
 
 			document.querySelector('#namanya').focus()
-			document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
 			document.querySelector('#nama').style.color = 'red'
 			document.querySelector('#nama').style.fontSize = '11px'
 			document.querySelector('#nama').style.marginRight = 'auto'
@@ -206,7 +200,7 @@
 			document.querySelector('#emailnya').focus()
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
-			document.querySelector('#email').innerHTML = 'Email tidak boleh kosong'
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
 			document.querySelector('#email').style.color = 'red'
 			document.querySelector('#email').style.fontSize = '11px'
 			document.querySelector('#email').style.marginRight = 'auto'
@@ -270,13 +264,20 @@
 			document.querySelector('#email').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
 
-			// $.ajax({
-			// 	url 	: 'register.php',
-			// 	type  	: 'post',
-			// 	data    : {
-
-			// 	}
-			// })
+			$.ajax({
+				url 	: 'register.php',
+				type  	: 'post',
+				data    : {
+					nama_user : getNama,
+					email 	  : getEmail,
+					password  : getPassword,
+					role_id   : getRoleId
+				},
+				success:function(data) {
+					alert("Success Register");
+					signUpButton.click()
+				}
+			})
 		}
 	})
 
