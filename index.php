@@ -1,6 +1,4 @@
 <?php  
-	
-	$pindah = 0;
 
 	$server    = "localhost";
 	$username  = "root";
@@ -21,20 +19,7 @@
 
 	if (isset($_POST['sign_in'])) {
 		header('Location:tes.php');
-	} else if (isset($_POST['sign_up'])) {
-		if ($_POST['nama'] == '') {
-			$pindah = 1;
-			header('Location:index.php?err=Nama tidak boleh kosong');
-		} else if ( $_POST['nama'] != '' && $_POST['email'] == '' ) {
-			$pindah = 2;
-			header('Location:index.php?err=Email tidak boleh kosong');
-		} else if ( $_POST['password'] == '') {
-			$pindah = 3;
-			header('Location:index.php?err=Password cannot be empty !');
-		} else {
-			header("Location:dashboard.php");
-		}
-	}
+	} 
 
 ?>
 <!DOCTYPE html>
@@ -46,18 +31,6 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-
-	<?php if (isset($_GET['err'])): ?>
-		<?php  
-
-			if ($_GET['err'] == 'Nama tidak boleh kosong') {
-				$pindah = 1;
-			} elseif ($_GET['err'] == 'Email tidak boleh kosong') {
-				$pindah = 2;
-			}
-
-		?>
-	<?php endif ?>
 
 <div class="container right-panel-active" id="container">
 	<div class="form-container sign-up-container">
@@ -112,9 +85,6 @@
 	const signInButton = document.getElementById('signIn');
 	const container = document.getElementById('container');
 	const signUpContainer = document.querySelector('.sign-up-container')
-
-	let pindah = "<?= $pindah; ?>"
-	console.log(`${pindah}`);
 
 	daftarButton.addEventListener('click', function(){
 		container.classList.remove("right-panel-active");
