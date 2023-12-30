@@ -253,31 +253,12 @@
 		}
 	})
 
-	// if (pindah == 1) {
-	// 	container.classList.remove("right-panel-active");
-	// 	signUpContainer.style.display = "none"
-	// 	document.querySelector('#nama').innerHTML = 'Nama tidak boleh kosong'
-	// 	document.querySelector('#nama').style.color = 'red'
-	// 	document.querySelector('#nama').style.fontSize = '11px'
-	// 	document.querySelector('#nama').style.marginRight = 'auto'
-	// 	localStorage.setItem("nama", `${nama}`);
-	// } else if (pindah == 2) {
-	// 	container.classList.remove("right-panel-active");
-	// 	signUpContainer.style.display = "none"
-	// 	document.querySelector('#nama').innerHTML = ''
-	// 	document.querySelector('#email').innerHTML = 'Email tidak boleh kosong'
-	// 	document.querySelector('#email').style.color = 'red'
-	// 	document.querySelector('#email').style.fontSize = '11px'
-	// 	document.querySelector('#email').style.marginRight = 'auto'
-	// }
-
 	signUpButton.addEventListener('click', () => {
 		signUpContainer.style.display = "block"
 		container.classList.add("right-panel-active");
 	});
 
 	signInButton.addEventListener('click', () => {
-		// alert('signUp');
 		container.classList.remove("right-panel-active");
 		signUpContainer.style.display = "none"
 	});
