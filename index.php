@@ -2,6 +2,23 @@
 	
 	$pindah = 0;
 
+	$server    = "localhost";
+	$username  = "root";
+	$password  = "";
+	$database  = "mading_practice";
+	$conn  	   = mysqli_connect($server, $username, $password, $database);
+
+	$queryGetRole = "SELECT * FROM role";
+	$execGetRole  = mysqli_query($conn, $queryGetRole);
+
+	$roleId = [0,1,2,3];
+	$role   = [
+		"-- SELECT ROLE --",
+		"HRD",
+		"Admin",
+		"Employee"
+	];
+
 	if (isset($_POST['sign_in'])) {
 		header('Location:tes.php');
 	} else if (isset($_POST['sign_up'])) {
@@ -48,11 +65,10 @@
 			<h1>Sign in</h1>
 			<input type="email" placeholder="Email" />
 			<input type="password" placeholder="Password" />
-			<button type="submit" name="sign_in">Sign In</button>
+			<button type="submit" id="masuk" name="sign_in">Sign In</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		
 
 		<div id="form">
 			<h1>Create Account</h1>
@@ -62,6 +78,11 @@
 			<small id="email"></small>
 			<input type="password" id="passwordnya" name="password" placeholder="Password" />
 			<small id="password"></small>
+			<select name="role_id">
+				<?php foreach ($roleId as $id): ?>
+					<option value="<?= $id; ?>"> <?= $role[$id]; ?> </option>
+				<?php endforeach ?>
+			</select>
 			<button type="submit" id="daftar" name="sign_up">Sign Up</button>
 		</div>
 
@@ -130,7 +151,7 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			document.querySelector('#password').style.marginBottom = '10px'
+			
 
 		} else if (getEmail == '' && getPassword == '') { 
 
@@ -146,7 +167,7 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			document.querySelector('#password').style.marginBottom = '10px'
+			
 
 		} else if (getNama == '' && getPassword == '') {
 
@@ -162,7 +183,7 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			document.querySelector('#password').style.marginBottom = '10px'
+			
 
 		} else if (getNama == '' && validOrInvalid == 'invalid') {
 			document.querySelector('#password').innerHTML = ''
@@ -225,7 +246,7 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			document.querySelector('#password').style.marginBottom = '10px'
+			
 		} else if (validOrInvalid == 'invalid') {
 
 			document.querySelector('#emailnya').focus()
@@ -244,12 +265,20 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			document.querySelector('#password').style.marginBottom = '10px'
+			
 		} else {
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#email').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
-			alert('ok');
+
+			// $.ajax({
+			// 	url 	: 'register.php',
+			// 	type  	: 'post',
+			// 	data    : {
+
+			// 	}
+			// })
+
 		}
 	})
 

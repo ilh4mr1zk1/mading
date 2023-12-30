@@ -92,11 +92,26 @@ form {
 	text-align: center;
 }
 
+#daftar, .ghost, #masuk {
+	cursor: pointer;
+}
+
 input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;
 	margin: 8px 0;
+	width: 100%;
+}
+
+select {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin-top: 8px;
+	margin-bottom: 15px;
+	margin-right: 0px;
+	margin-left: 0px;
 	width: 100%;
 }
 
