@@ -97,6 +97,8 @@
 					<option value="<?= $id; ?>"> <?= $nama_role; ?> </option>
 				<?php endforeach ?>
 			</select>
+			<input type="text" id="buat_hrd" name="buat_hrd" placeholder="Code HRD" />
+			<small id="buat_hrd_2"></small>
 			<button type="submit" id="daftar" name="sign_up">Sign Up</button>
 		</div>
 
@@ -120,7 +122,7 @@
 
 <script src="js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
-	
+	document.querySelector('#email_signin').focus()
 	const signUpButton 		= document.getElementById('signUp');
 	const daftarButton		= document.getElementById('daftar');
 	const signInButton		= document.getElementById('signIn');
@@ -132,14 +134,12 @@
 	const formEmailSignUp 	 = document.getElementById('emailnya');
 	const formPasswordSignUp = document.getElementById('passwordnya');
 	const formRoleIdSignUp   = document.getElementById('roleidnya');
+	const formCodeHRDSignUp  = document.getElementById('buat_hrd');
 
 	let formEmailLogins 	= document.querySelector('.email_signin');
 	let formPasswordLogins 	= document.querySelector('.password_signin');
 
 	let kode 			= `<?= $kode; ?>`
-	let getEmailError 	= `<?= $emailError; ?>`
-
-	console.log(getEmailError);
 
 	if (kode == 1) {
 		formEmailLogins.focus()
@@ -148,6 +148,30 @@
 		formPasswordLogins.focus()
 	}
 	console.log(kode);
+	$("#buat_hrd").hide()
+	$("#buat_hrd_2").hide()
+
+	let isiRoleId = 0
+
+	$("#roleidnya").change(function(){
+  		let isi = formRoleIdSignUp.value;
+	  	if (isi == 1) {
+	  		isiRoleId = isi
+  			console.log(isiRoleId);
+			formRoleIdSignUp.style.marginBottom = '10px'
+		  	$("#buat_hrd").show()
+			$("#buat_hrd_2").show()
+			let elementBuatHrd2 = document.querySelector('#buat_hrd_2')
+		  	elementBuatHrd2.style.marginBottom = '15px'
+		} else {
+			isiRoleId = isi
+		  	$("#buat_hrd").hide()
+		  	formRoleIdSignUp.style.marginBottom = '15px'
+			$("#buat_hrd_2").hide()
+			document.querySelector('#buat_hrd_2').innerHTML = ''
+  			console.log(isiRoleId);
+		}
+	}); 
 
 	daftarButton.addEventListener('click', function(){
 		container.classList.remove("right-panel-active");
@@ -174,7 +198,7 @@
 
 		console.log(validOrInvalid);
 
-		if (getNama == '' && getEmail == '' && getPassword == '') {
+		if (getNama == '' && getEmail == '' && getPassword == '' && formRoleIdSignUp.value == 0) {
 
 			document.querySelector('#namanya').focus()
 
@@ -226,6 +250,24 @@
 			document.querySelector('#email').style.marginRight = 'auto'
 
 			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
+
+		} else if (getNama == '' && getEmail == '' && panjangPassword < 5) {
+
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
+			document.querySelector('#nama').style.color = 'red'
+			document.querySelector('#nama').style.fontSize = '11px'
+			document.querySelector('#nama').style.marginRight = 'auto'
+			document.querySelector('#namanya').focus()
+
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
+			document.querySelector('#email').style.color = 'red'
+			document.querySelector('#email').style.fontSize = '11px'
+			document.querySelector('#email').style.marginRight = 'auto'
+
+			document.querySelector('#password').innerHTML = 'Minimum 5 Character'
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
@@ -305,8 +347,9 @@
 			document.querySelector('#nama').style.display = 'block'
 			document.querySelector('#email').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
+			document.querySelector('#buat_hrd_2').innerHTML = ''
 
-		} else if (getNama !== '' && getEmail == '' && panjangPassword <= 5) {
+		} else if (getNama !== '' && getEmail == '' && panjangPassword < 5) {
 
 			document.querySelector('#emailnya').focus()
 
@@ -327,6 +370,7 @@
 			document.querySelector('#emailnya').focus()
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
+			document.querySelector('#buat_hrd_2').innerHTML = ''
 			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
 			document.querySelector('#email').style.color = 'red'
 			document.querySelector('#email').style.fontSize = '11px'
@@ -364,6 +408,7 @@
 			document.querySelector('#emailnya').focus()
 			document.querySelector('#nama').innerHTML 		= ''
 			document.querySelector('#password').innerHTML   = ''
+			document.querySelector('#buat_hrd_2').innerHTML = ''
 
 			document.querySelector('#email').innerHTML = 'Format Email Must be @gmail.com'
 			document.querySelector('#email').style.color = 'red'
@@ -379,6 +424,8 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
+
+			document.querySelector('#buat_hrd_2').innerHTML = ''
 			
 		} else if (panjangPassword < 5) {
 
@@ -391,12 +438,58 @@
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
 
+			document.querySelector('#buat_hrd_2').innerHTML = ''
+
+		} else if (isiRoleId == 1) {
+
+			if (formCodeHRDSignUp.value == '') {
+				alert('Code HRD cannot be empty !');
+				formCodeHRDSignUp.focus()
+				document.querySelector('#nama').innerHTML = ''
+				document.querySelector('#email').innerHTML = ''
+				document.querySelector('#password').innerHTML = ''
+				document.getElementById("namanya").value = getNama
+				document.getElementById("emailnya").value = getEmail
+				document.getElementById("passwordnya").value = getPassword
+
+				document.querySelector('#buat_hrd_2').innerHTML = 'Please Insert Code for HRD !'
+				document.querySelector('#buat_hrd_2').style.color = 'red'
+				document.querySelector('#buat_hrd_2').style.fontSize = '11px'
+				document.querySelector('#buat_hrd_2').style.marginRight = 'auto'
+
+			} else {
+
+				formNameSignUp.value     = ''
+				formEmailSignUp.value    = ''
+				formPasswordSignUp.value = '' 
+				document.querySelector('#nama').innerHTML = ''
+				document.querySelector('#email').innerHTML = ''
+				document.querySelector('#password').innerHTML = ''
+
+				$.ajax({
+					url 	: 'register.php',
+					type  	: 'post',
+					data    : {
+						nama_user : getNama,
+						email 	  : getEmail,
+						password  : getPassword,
+						role_id   : getRoleId
+					},
+					success:function(data) {
+						alert("Success Register");
+						signUpButton.click()
+						formEmailLogin.value = data
+						// console.log(data);
+					}
+				})
+
+			}
+
 		} else {
 
 			formNameSignUp.value     = ''
 			formEmailSignUp.value    = ''
 			formPasswordSignUp.value = '' 
-			formRoleIdSignUp.value   = 0
 			document.querySelector('#nama').innerHTML = ''
 			document.querySelector('#email').innerHTML = ''
 			document.querySelector('#password').innerHTML = ''
@@ -417,6 +510,7 @@
 					// console.log(data);
 				}
 			})
+
 		}
 	})
 
@@ -427,11 +521,22 @@
 		formEmailSignUp.value    = ''
 		formPasswordSignUp.value = ''
 		formRoleIdSignUp.value   = 0
+		formRoleIdSignUp.style.marginBottom = '15px'
+		formCodeHRDSignUp.value  = ''
+		formCodeHRDSignUp.style.display = 'none'
+		document.querySelector("#buat_hrd_2").style.display = 'none'
+		document.querySelector('#nama').innerHTML = ''
+		document.querySelector('#email').innerHTML = ''
+		document.querySelector('#password').innerHTML = ''
+		document.querySelector('#buat_hrd_2').innerHTML = ''
+
+		document.querySelector('#email_signin').focus()
 	});
 
 	signInButton.addEventListener('click', () => {
 		container.classList.remove("right-panel-active");
 		signUpContainer.style.display = "none"
+		document.querySelector('#namanya').focus()
 	});
 </script>
 
