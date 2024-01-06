@@ -98,13 +98,16 @@
 			<input type="email" name="email" pattern=".*@gmail\.com" required id="emailnya" placeholder="youremail@gmail.com" />
 			<small id="email"></small>
 			<input type="password" id="passwordnya" name="password" placeholder="Password" />
+			<div class="ksg" style="display: flex;margin-right: 70%;">
+				<input type="checkbox" id="cekbox" style="margin-right: -7%;"> <span style="margin-left: 10%; font-size: 10px;"> Show Password </span>
+			</div>
 			<small id="password"></small>
 			<select id="roleidnya" name="role_id">
 				<?php foreach ($role as $id => $nama_role): ?>
 					<option value="<?= $id; ?>"> <?= $nama_role; ?> </option>
 				<?php endforeach ?>
 			</select>
-			<input type="text" id="buat_hrd" name="buat_hrd" placeholder="Code HRD" />
+			<input type="password" id="buat_hrd" name="buat_hrd" placeholder="Code HRD" />
 			<small id="buat_hrd_2"></small>
 			<button type="submit" id="daftar" name="sign_up">Sign Up</button>
 		</div>
@@ -156,6 +159,15 @@
 		formPasswordLogins.value = ''
 		formPasswordLogins.focus()
 	}
+
+	$("#cekbox").click(function(){
+		let x = document.getElementById("passwordnya");
+	  	if (x.type === "password") {
+	    	x.type = "text";
+	  	} else {
+	  	  x.type = "password";
+	  }
+	})
 
 	$("#buat_hrd").hide()
 	$("#buat_hrd_2").hide()
