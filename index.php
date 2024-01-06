@@ -30,6 +30,13 @@
 	$emailError = '';
 	$kode 		= '';
 
+	$kodeHRD = [
+		'abc',
+		'cda',
+		'bca'
+	];
+
+	$kodeJs = json_encode($kodeHRD);
 
 	//jika ada data yg dikirim
 	if (isset($_POST['sign_in'])) {
@@ -123,6 +130,8 @@
 <script src="js/jquery-3.7.1.js"></script>
 <script type="text/javascript">
 	document.querySelector('#email_signin').focus()
+
+	console.log(JSON.parse(`<?= $kodeJs; ?>`));
 	const signUpButton 		= document.getElementById('signUp');
 	const daftarButton		= document.getElementById('daftar');
 	const signInButton		= document.getElementById('signIn');
@@ -147,7 +156,7 @@
 		formPasswordLogins.value = ''
 		formPasswordLogins.focus()
 	}
-	console.log(kode);
+
 	$("#buat_hrd").hide()
 	$("#buat_hrd_2").hide()
 
@@ -180,6 +189,7 @@
 		let getEmail    	= document.getElementById("emailnya").value
 		let getPassword 	= document.getElementById("passwordnya").value
 		let getRoleId 		= document.getElementById("roleidnya").value
+		let getCodeHRD      = document.getElementById('buat_hrd').value
 		let validOrInvalid  = '';
 		let panjangPassword = getPassword.length
 
@@ -216,7 +226,57 @@
 			document.querySelector('#password').style.color = 'red'
 			document.querySelector('#password').style.fontSize = '11px'
 			document.querySelector('#password').style.marginRight = 'auto'
-			
+
+		} else if ( getNama == '' && getEmail == '' && getPassword == '' && formRoleIdSignUp.value == 1 ) {
+
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
+			document.querySelector('#nama').style.color = 'red'
+			document.querySelector('#nama').style.fontSize = '11px'
+			document.querySelector('#nama').style.marginRight = 'auto'
+
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
+			document.querySelector('#email').style.color = 'red'
+			document.querySelector('#email').style.fontSize = '11px'
+			document.querySelector('#email').style.marginRight = 'auto'
+
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
+
+		} else if ( getNama == '' && getEmail == '' && getPassword == '' && formRoleIdSignUp.value == 2 ) {
+
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
+			document.querySelector('#nama').style.color = 'red'
+			document.querySelector('#nama').style.fontSize = '11px'
+			document.querySelector('#nama').style.marginRight = 'auto'
+
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
+			document.querySelector('#email').style.color = 'red'
+			document.querySelector('#email').style.fontSize = '11px'
+			document.querySelector('#email').style.marginRight = 'auto'
+
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
+
+		} else if ( getNama == '' && getEmail == '' && getPassword == '' && formRoleIdSignUp.value == 3 ) {
+
+			document.querySelector('#nama').innerHTML = 'Name cannot be empty !'
+			document.querySelector('#nama').style.color = 'red'
+			document.querySelector('#nama').style.fontSize = '11px'
+			document.querySelector('#nama').style.marginRight = 'auto'
+
+			document.querySelector('#email').innerHTML = 'Email cannot be empty !'
+			document.querySelector('#email').style.color = 'red'
+			document.querySelector('#email').style.fontSize = '11px'
+			document.querySelector('#email').style.marginRight = 'auto'
+
+			document.querySelector('#password').innerHTML = 'Password cannot be empty !'
+			document.querySelector('#password').style.color = 'red'
+			document.querySelector('#password').style.fontSize = '11px'
+			document.querySelector('#password').style.marginRight = 'auto'
 
 		} else if (getEmail == '' && getPassword == '') { 
 
@@ -473,13 +533,30 @@
 						nama_user : getNama,
 						email 	  : getEmail,
 						password  : getPassword,
-						role_id   : getRoleId
+						role_id   : getRoleId,
+						kode_hrd  : getCodeHRD
 					},
 					success:function(data) {
-						alert("Success Register");
-						signUpButton.click()
-						formEmailLogin.value = data
-						// console.log(data);
+						if (JSON.parse(data).code_error == 0) {
+							alert("Success Register");
+							signUpButton.click()
+							formEmailLogin.value = JSON.parse(data).email
+						} else {
+							signInButton.click()
+							formNameSignUp.value = JSON.parse(data).nama_user
+							formEmailSignUp.value = JSON.parse(data).email
+							formPasswordSignUp.value = JSON.parse(data).password
+							formRoleIdSignUp.value = JSON.parse(data).role_id
+							formCodeHRDSignUp.value = JSON.parse(data).kode_hrd
+							formCodeHRDSignUp.focus()
+							console.log(JSON.parse(data).code_error);
+
+							document.querySelector('#buat_hrd_2').innerHTML = 'Incorrect Code for HRD !'
+							document.querySelector('#buat_hrd_2').style.color = 'red'
+							document.querySelector('#buat_hrd_2').style.fontSize = '11px'
+							document.querySelector('#buat_hrd_2').style.marginRight = 'auto'
+						}
+						
 					}
 				})
 
@@ -501,13 +578,13 @@
 					nama_user : getNama,
 					email 	  : getEmail,
 					password  : getPassword,
-					role_id   : getRoleId
+					role_id   : getRoleId,
+					kode_hrd  : 0
 				},
 				success:function(data) {
 					alert("Success Register");
 					signUpButton.click()
 					formEmailLogin.value = data
-					// console.log(data);
 				}
 			})
 
@@ -538,6 +615,7 @@
 		signUpContainer.style.display = "none"
 		document.querySelector('#namanya').focus()
 	});
+
 </script>
 
 </body>
