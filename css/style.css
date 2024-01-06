@@ -96,6 +96,10 @@ form {
 	cursor: pointer;
 }
 
+#masuk {
+	margin-top: 15px;
+}
+
 input {
 	background-color: #eee;
 	border: none;

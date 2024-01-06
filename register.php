@@ -6,16 +6,23 @@
 
 		$nama_user = htmlspecialchars($_POST['nama_user']);
 		$email 	   = $_POST['email'];
-		$password  = md5($_POST['password']);
+		$password  = htmlspecialchars(strtolower(stripcslashes($_POST['password'])));
+
+		$options = [
+            'cost' => 10,
+        ];
+
+		$password  = password_hash($password, PASSWORD_DEFAULT, $options);
 		$role_id   = $_POST['role_id'];
 
-		if ($role_id == 1) {
-			$role_id = 4;
+		if ($role_id == 0) {
+			$role_id = 3;
 		}
 		
 		$queryRegister     = "INSERT INTO users VALUES ('', '$nama_user', '$email', '$password', '$role_id')";
 
-		return mysqli_query($conn, $queryRegister);
+		echo $email;
+		mysqli_query($conn, $queryRegister);
 
 	}
 
