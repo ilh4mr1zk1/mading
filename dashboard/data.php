@@ -129,26 +129,42 @@
 	    //     ';
 	    // }
 
-	    for ($i=0; $i < count($getDataMessage); $i++) { 
-	    	$outputNya .= 
-			'
-				<li class="show_data" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
-	                  <a href="#">
-	                    <div class="pull-left">
-	                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-	                    </div>
-	                    <h4>
-	                      <p style="font-size:10px;"> From : '. $getDataMessage[$i]['nama_user'] .' </p>
-	                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
-	                    </h4>
-	                    <h4> '. $getDataMessage[$i]['isi_pesan'] .' </h4>
-	                  </a>
+		if (count($getDataMessage) != 0) {
+
+		    for ($i=0; $i < count($getDataMessage); $i++) { 
+		    	$outputNya .= 
+				'
+					<li class="show_data" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
+		                  <a href="#">
+		                    <div class="pull-left">
+		                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+		                    </div>
+		                    <h4>
+		                      <p style="font-size:10px;"> From : '. $getDataMessage[$i]['nama_user'] .' </p>
+		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
+		                    </h4>
+		                    <h4> '. $getDataMessage[$i]['isi_pesan'] .' </h4>
+		                  </a>
+		          	</li>
+		        ';
+		    }
+
+		} else {
+
+			$outputNya .= '
+				<li>
+                  	<a href="#">
+	                    <h4> '. "No unapproved data" .' </h4>
+                  	</a>
 	          	</li>
 	        ';
-	    }
+
+		}
+
 
 	    $arr['jumlah_notif'] = $countDataNotYetAprrove;
 		$arr['display_html'] = $outputNya;
+		$arr['count_message']= count($getDataMessage);
 
 		echo json_encode($arr);
 

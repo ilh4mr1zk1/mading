@@ -120,59 +120,51 @@
             </a>
             <ul class="dropdown-menu">
 
-              <?php if ($countDataMessage == 0 ): ?>
+              <?php if ($name_role == "HRD"): ?>
+                <li class="header">You have <span class="ini_notif_bwh"></span> messages not approve</li>
+
+                <li>
+
+                <ul class="menu" id="isi_pengumuman">
                   
-                <?php echo "Ga ada data"; ?>
-
-              <?php else: ?>
-
-                <?php if ($name_role == "HRD"): ?>
-                  <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
-
-                  <li>
-
-                  <ul class="menu" id="isi_pengumuman">
-                    
-                    <!-- <?php foreach ($getDataMessage as $data): ?>
-                      <li class="show_data" data-toggle="modal" data-id="<?= $data['message_id']; ?>" data-target="modal-default" data-from="<?= $data['nama_user']; ?>"
-                        data-judul="<?= $data['judul_pesan']; ?>" data-isi="<?= $data['isi_pesan']; ?>" data-nama="<?= $data['nama_user']; ?>">
-                          <a href="#">
-                            <div class="pull-left">
-                              <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                            </div>
-                            <h4>
-                              <p style="font-size:10px;"> From : <?= $data['nama_user']; ?> </p>
-                              <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
-                            </h4>
-                            <h4> <?= $data['isi_pesan']; ?> </h4>
-                          </a>
-                      </li>
-                    <?php endforeach; ?> -->
-
-                  </ul>
-
-                <?php else: ?>
-
-                  <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
-
-                  <li>
-
-                  <ul class="menu" id="isi_pengumuman">
-                  
-                    <li class="show_data">
+                  <!-- <?php foreach ($getDataMessage as $data): ?>
+                    <li class="show_data" data-toggle="modal" data-id="<?= $data['message_id']; ?>" data-target="modal-default" data-from="<?= $data['nama_user']; ?>"
+                      data-judul="<?= $data['judul_pesan']; ?>" data-isi="<?= $data['isi_pesan']; ?>" data-nama="<?= $data['nama_user']; ?>">
                         <a href="#">
                           <div class="pull-left">
                             <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                           </div>
                           <h4>
-                            <?php echo "BUKAN HRD" ?>
+                            <p style="font-size:10px;"> From : <?= $data['nama_user']; ?> </p>
+                            <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
                           </h4>
+                          <h4> <?= $data['isi_pesan']; ?> </h4>
                         </a>
                     </li>
-                  
-                  </ul>
+                  <?php endforeach; ?> -->
 
-                <?php endif; ?>
+                </ul>
+
+              <?php else: ?>
+
+                <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
+
+                <li>
+
+                <ul class="menu" id="isi_pengumuman">
+                
+                  <li class="show_data">
+                      <a href="#">
+                        <div class="pull-left">
+                          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        </div>
+                        <h4>
+                          <?php echo "BUKAN HRD" ?>
+                        </h4>
+                      </a>
+                  </li>
+                
+                </ul>
 
               <?php endif; ?>
 
@@ -774,7 +766,7 @@
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            // console.log(JSON.parse(this.responseText).test);
+            console.log(JSON.parse(this.responseText));
             document.querySelector(".ini_notif").innerHTML = JSON.parse(this.responseText).jumlah_notif
             document.querySelector(".ini_notif_bwh").innerHTML = JSON.parse(this.responseText).jumlah_notif
             $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
