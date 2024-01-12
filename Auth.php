@@ -288,6 +288,35 @@ class Auth {
 
     }
 
+    public function insertDataReason($message_id, $reason = 'kosong') {
+        try {
+
+            // $data = [
+            //     'reason' => $reason,
+            //     'message_id' => $message_id
+            // ];
+
+            // $queryInsert = "INSERT INTO reason (id, reason, message_id) VALUES ('', :reason, :message_id)";
+            // $queryExecute = $this->db->prepare($sql);
+            // $queryExecute->execute($data);
+            if ($reason != 'kosong' ) {
+                $sql = "INSERT INTO reason (id, reason, message_id) VALUES (?,?,?)";
+                $this->db->prepare($sql)->execute(['', $reason, $message_id]);
+            } else {
+                $sql = "INSERT INTO reason (id, reason, message_id) VALUES (?,?,?)";
+                $this->db->prepare($sql)->execute(['', 'tidak ada komentar', $message_id]);
+            }
+
+            // $queryInsertReason   = $this->db->prepare("INSERT INTO reason VALUES ('', '$reason', '$message_id')");
+            // $queryInsertReason->execute();
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+
+            return false;
+        }
+    }
+
     public function getDataNoApprove() {
 
         $queryGetDataNoApprove   = $this->db->prepare("SELECT * FROM message WHERE status_approve = '3' ");

@@ -10,16 +10,23 @@
 
 	$status_approve = "";
 
-	if (isset($_POST['message_title']) && isset($_POST['message_info']) && isset($_POST['status_approve']) && isset($_POST['id']) ) {
+	if (isset($_POST['message_title']) && isset($_POST['message_info']) && isset($_POST['status_approve']) && isset($_POST['id']) && isset($_POST['reason']) ) {
 		
 		$messsage_title = $_POST['message_title'];
 		$message_info 	= $_POST['message_info'];
 		$status_approve = $_POST['status_approve'];
 		$id 		    = $_POST['id'];
+		$reason 		= $_POST['reason'];
 
 		$user->updateData($messsage_title, $message_info, $status_approve, $id);
-		
-		$checkData = $user->updateData($messsage_title, $message_info, $status_approve, $id);
+
+		if ($reason !== '') {
+			$user->insertDataReason($id, $reason);
+		} else {
+			$reason = "tidak ada komentar";
+			$user->insertDataReason($id);
+		}
+
 
 		$getDataNoApprove = $user->getDataNoApprove();
 
@@ -27,11 +34,12 @@
 
 		$countDataNotYetAprrove = $user->countDataMessage();
 
-        $arr['id']              = $getDataNoApprove['id'];
-        $arr['message_title']   = $getDataNoApprove['message_title'];
-        $arr['message_info']    = $getDataNoApprove['message_info'];
-        $arr['status_approve']  = $getDataNoApprove['status_approve'];
+        $arr['id']              = $id;
+        $arr['message_title']   = $messsage_title;
+        $arr['message_info']    = $message_info;
+        $arr['status_approve']  = $status_approve ;
         $arr['not_yet_approve'] = $countDataNotYetAprrove;
+        $arr['reason']          = $reason;
 
 		echo json_encode($arr);
 
@@ -103,19 +111,37 @@
 		
 		$result = mysqli_query($conn, $queryNya);
 
-		while ($row = mysqli_fetch_array($result)) { 
-			$outputNya .= 
+		// while ($row = mysqli_fetch_array($result)) { 
+		// 	$outputNya .= 
+		// 	'
+		// 		<li class="show_data" data-toggle="modal" data-id="'. $row['message_id'] .'" data-from="'. $row['nama_user'] .'" data-title="'. $row['judul_pesan'] .'" data-main="'. $row['isi_pesan'] .'" data-target="modal-default">
+	    //               <a href="#">
+	    //                 <div class="pull-left">
+	    //                   <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+	    //                 </div>
+	    //                 <h4>
+	    //                   <p style="font-size:10px;"> From : '. $row['nama_user'] .' </p>
+	    //                   <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
+	    //                 </h4>
+	    //                 <h4> '. $row['isi_pesan'] .' </h4>
+	    //               </a>
+	    //       	</li>
+	    //     ';
+	    // }
+
+	    for ($i=0; $i < count($getDataMessage); $i++) { 
+	    	$outputNya .= 
 			'
-				<li class="show_data" data-toggle="modal" data-id="'. $row['message_id'] .'" data-from="'. $row['nama_user'] .'" data-title="'. $row['judul_pesan'] .'" data-main="'. $row['isi_pesan'] .'" data-target="modal-default">
+				<li class="show_data" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
 	                  <a href="#">
 	                    <div class="pull-left">
 	                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 	                    </div>
 	                    <h4>
-	                      <p style="font-size:10px;"> From : '. $row['nama_user'] .' </p>
+	                      <p style="font-size:10px;"> From : '. $getDataMessage[$i]['nama_user'] .' </p>
 	                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
 	                    </h4>
-	                    <h4> '. $row['isi_pesan'] .' </h4>
+	                    <h4> '. $getDataMessage[$i]['isi_pesan'] .' </h4>
 	                  </a>
 	          	</li>
 	        ';

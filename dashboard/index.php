@@ -748,8 +748,7 @@
       e.preventDefault()
 
       let dataId    = document.querySelector("#id_ann").value
-
-      // alert(`${dataId} tidak setuju`);
+      let reason    = document.querySelector("#reason").value
 
       $.ajax({
         url   : "data.php",
@@ -758,13 +757,13 @@
           message_title  : title.value,
           message_info   : main.value,
           status_approve : 3,
-          id             : dataId
+          id             : dataId,
+          reason         : reason
         },
         success:function(data) {
-          // window.location.href = '/mading/dashboard'
           console.log(JSON.parse(data));
           $("#close_approve").click()
-          loadData()
+          $("#reason").val("")
         }
       })
     })
@@ -775,7 +774,7 @@
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            // console.log(JSON.parse(this.responseText).jumlah_notif);
+            // console.log(JSON.parse(this.responseText).test);
             document.querySelector(".ini_notif").innerHTML = JSON.parse(this.responseText).jumlah_notif
             document.querySelector(".ini_notif_bwh").innerHTML = JSON.parse(this.responseText).jumlah_notif
             $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
@@ -842,16 +841,18 @@
 
     loadData()
 
-    let getElementReason = document.querySelector(".reason")
-    let buttonNotApprove = document.querySelector("#not_approve")
+    let getElementReason    = document.querySelector(".reason")
+    let buttonNotApprove    = document.querySelector("#not_approve")
+    let elementModalContent = document.querySelector(".modal-content")
 
     document.addEventListener('click', function(e) {
-      if ( !buttonNotApprove.contains(e.target) ) {
+      if ( !buttonNotApprove.contains(e.target) && !forms.contains(e.target) && !elementModalContent.contains(e.target) ) {
         $(".reason").hide()
         $("#cancel_not_approve").hide()
         $("#save_reason").hide()
         $("#not_approve").show()
         $("#approve").show()
+        $("#reason").val("")
       }
     })
 
