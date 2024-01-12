@@ -22,7 +22,7 @@
   // status_approve = 3 (tidak di approve) 
 
   $countDataMessage = $user->countDataMessage();
-  $getDataMessage   = $user->getDataMessage();
+  $getDataMessage   = $user->getDataMessage(1);
 
   // foreach ($getDataMessage as $row) {
   //   echo $row["message_id"] . " - " . $row["judul_pesan"] . " - " . $row["nama_user"] . "<br/>";
@@ -47,6 +47,7 @@
     users.nama_user as nama_user, 
     users.email as email 
     FROM message 
+    WHERE 
     LEFT JOIN users
     ON message.user_id = users.id
   ";
@@ -111,11 +112,11 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
+
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-success"><?= $countDataMessage; ?></span>
+              <span class="label label-success ini_notif" id="count_message"> </span>
             </a>
             <ul class="dropdown-menu">
 
@@ -125,15 +126,16 @@
 
               <?php else: ?>
 
-                <li class="header">You have <?= $countDataMessage; ?> messages</li>
+                <?php if ($name_role == "HRD"): ?>
+                  <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
 
-                <li>
-                  <!-- inner menu: contains the actual data -->
-                  <ul class="menu">
-                    <?php if ($name_role == "HRD"): ?>
-                      <?php foreach ($getDataMessage as $data): ?>
-                        <li class="show_data"  data-from="<?= $data['nama_user']; ?>"
-                        data-judul="<?= $data['judul_pesan']; ?>" data-isi="<?= $data['isi_pesan']; ?>" data-nama="<?= $data['nama_user']; ?>"><!-- start message -->
+                  <li>
+
+                  <ul class="menu" id="isi_pengumuman">
+                    
+                    <!-- <?php foreach ($getDataMessage as $data): ?>
+                      <li class="show_data" data-toggle="modal" data-id="<?= $data['message_id']; ?>" data-target="modal-default" data-from="<?= $data['nama_user']; ?>"
+                        data-judul="<?= $data['judul_pesan']; ?>" data-isi="<?= $data['isi_pesan']; ?>" data-nama="<?= $data['nama_user']; ?>">
                           <a href="#">
                             <div class="pull-left">
                               <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
@@ -144,24 +146,40 @@
                             </h4>
                             <h4> <?= $data['isi_pesan']; ?> </h4>
                           </a>
-                        </li>
-                      <?php endforeach; ?>
+                      </li>
+                    <?php endforeach; ?> -->
 
-                    <?php else: ?>
-
-                      <?php echo "BUKAN HRD" ?>
-
-                    <?php endif; ?>
-                    <!-- end message -->
                   </ul>
-                </li> 
+
+                <?php else: ?>
+
+                  <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
+
+                  <li>
+
+                  <ul class="menu" id="isi_pengumuman">
+                  
+                    <li class="show_data">
+                        <a href="#">
+                          <div class="pull-left">
+                            <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                          </div>
+                          <h4>
+                            <?php echo "BUKAN HRD" ?>
+                          </h4>
+                        </a>
+                    </li>
+                  
+                  </ul>
+
+                <?php endif; ?>
 
               <?php endif; ?>
 
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li>
-          <!-- Notifications: style can be found in dropdown.less -->
+
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
@@ -267,36 +285,54 @@
         <div class="modal-body" style="margin-bottom: 10px;">
 
             <div class="box-body" style="padding-left: 60px; padding-right: 60px;">
-              <form role="form">
+
+              <form role="form" id="forms">
+
                 <div class="row">
+
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> From </label>
-                      <input type="" name="" id="from_ann" style="width: 60%;margin-left: 10px;">
+                      <input type="" name="" id="from_ann" style="width: 60%; margin-left: 10px;">
+                      <input type="" name="" id="id_ann" style="width: 60%; margin-left: 10px;">
                     </div>
                   </div>
+
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Via </label>
-                      <input type="" id="via_ann" name="" style="width: 25%;">
+                      <input type="" id="via_ann" name="" style="width: 25%; margin-left: 10px;">
                     </div>
                   </div>
+
                 </div>
+
                 <div class="form-group">
                   <label for="title_ann">Title Announcement</label>
                   <input type="text" id="title_ann" class="form-control" placeholder="Title Announcement ...">
                 </div>
+
                 <div class="form-group">
                   <label for="main_ann">Announcement</label>
                   <textarea style="height: 150px;" class="form-control" id="main_ann" rows="3" placeholder="Announcement ..."></textarea>
                 </div>
+
+                <div class="form-group reason">
+                  <label for="reason">Reason (Optional)</label>
+                  <input type="text" id="reason" class="form-control" placeholder="Reason ... (Optional)">
+                </div>
+
               </form>
+
             </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" id="close_approve" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" id="not_approve" class="btn btn-danger">Not approved</button>
+          <button type="button" id="cancel_not_approve" class="btn btn-primary">Cancel</button>
+          <button type="button" id="approve" class="btn btn-success">Approve</button>
+          <button type="button" id="save_reason" class="btn btn-danger">Not Approved</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -622,17 +658,203 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <script type="text/javascript">
+
   $(document).ready( function () {
+    
+    let role              = `<?= $name_role; ?>` 
+    const id              = document.querySelector("#id_ann")
+    const from            = document.querySelector("#from_ann")
+    const via             = document.querySelector("#via_ann")
+    const title           = document.querySelector("#title_ann")
+    const main            = document.querySelector("#main_ann")
+    let countDataMessage  = `<?= $countDataMessage; ?>`
+    console.log(role);
+
+    const forms = document.querySelector("#forms")
+
+    $("#id_ann").hide()
+    $(".reason").hide()
+    $("#cancel_not_approve").hide()
+    $("#save_reason").hide()
+
     $(".show_data").click(function(){
-      $("#modal-default").modal('show')
-      let dataNama  = $(this).data('nama')
-      let dataTitle = $(this).data('judul')
-      let dataIsi   = $(this).data('isi')
-      $("#from_ann").val(dataNama)
-      $("#via_ann").val("Admin")
-      $("#title_ann").val(dataTitle)
-      $("#main_ann").val(dataIsi)
+
+      if (role === 'HRD') {
+
+        $("#modal-default").modal('show')
+        from.setAttribute("readonly", "")
+        from.style.backgroundColor = '#eee'
+
+        via.setAttribute("readonly", "")
+        via.style.backgroundColor = '#eee'
+
+        title.setAttribute("readonly", "")
+        title.style.backgroundColor = '#eee'
+
+        main.setAttribute("readonly", "")
+        main.style.backgroundColor = '#eee'
+
+        let dataId    = $(this).data('id')
+        let dataNama  = $(this).data('nama')
+        let dataTitle = $(this).data('judul')
+        let dataIsi   = $(this).data('isi')
+
+        $("#id_ann").val(dataId)
+        $("#from_ann").val(dataNama)
+        $("#via_ann").val("Admin")
+        $("#title_ann").val(dataTitle)
+        $("#main_ann").val(dataIsi)
+
+        $("#not_approve").click(function(){
+          
+          $(".reason").show()
+          $("#reason").focus()
+          $("#cancel_not_approve").show()
+          $("#save_reason").show()
+          $("#not_approve").hide()
+          $("#approve").hide()
+
+        })
+
+      } else {
+
+        $("#modal-default").modal('show')
+        let dataNama  = $(this).data('nama')
+        let dataTitle = $(this).data('judul')
+        let dataIsi   = $(this).data('isi')
+        $("#from_ann").val(dataNama)
+        $("#via_ann").val("Admin")
+        $("#title_ann").val(dataTitle)
+        $("#main_ann").val(dataIsi)
+
+      }
+
     })
+
+    $("#approve").click(function(e){
+      e.preventDefault()
+      alert('Setuju');
+    })
+
+    $("#cancel_not_approve").click(function(){
+      $("#cancel_not_approve").hide()
+      $("#save_reason").hide()
+      $("#not_approve").show()
+      $("#approve").show()
+      $(".reason").hide()
+    })
+
+    $("#save_reason").click(function(e){
+      e.preventDefault()
+
+      let dataId    = document.querySelector("#id_ann").value
+
+      // alert(`${dataId} tidak setuju`);
+
+      $.ajax({
+        url   : "data.php",
+        type  : "POST",
+        data  : {
+          message_title  : title.value,
+          message_info   : main.value,
+          status_approve : 3,
+          id             : dataId
+        },
+        success:function(data) {
+          // window.location.href = '/mading/dashboard'
+          console.log(JSON.parse(data));
+          $("#close_approve").click()
+          loadData()
+        }
+      })
+    })
+
+    const loadData = () => {
+
+      setInterval(function(){
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // console.log(JSON.parse(this.responseText).jumlah_notif);
+            document.querySelector(".ini_notif").innerHTML = JSON.parse(this.responseText).jumlah_notif
+            document.querySelector(".ini_notif_bwh").innerHTML = JSON.parse(this.responseText).jumlah_notif
+            $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
+            $(".show_data").click(function(e){
+              e.preventDefault()
+              let dataId    = $(this).data('id')
+              let dataNama  = $(this).data('from')
+              let dataTitle = $(this).data('title')
+              let dataMain  = $(this).data('main')
+
+              if (role === 'HRD') {
+
+                $("#modal-default").modal('show')
+                from.setAttribute("readonly", "")
+                from.style.backgroundColor = '#eee'
+
+                via.setAttribute("readonly", "")
+                via.style.backgroundColor = '#eee'
+
+                title.setAttribute("readonly", "")
+                title.style.backgroundColor = '#eee'
+
+                main.setAttribute("readonly", "")
+                main.style.backgroundColor = '#eee'
+
+                $("#id_ann").val(dataId)
+                $("#from_ann").val(dataNama)
+                $("#via_ann").val("Admin")
+                $("#title_ann").val(dataTitle)
+                $("#main_ann").val(dataMain)
+
+                $("#not_approve").click(function(){
+                  
+                  $(".reason").show()
+                  $("#reason").focus()
+                  $("#cancel_not_approve").show()
+                  $("#save_reason").show()
+                  $("#not_approve").hide()
+                  $("#approve").hide()
+
+                })
+
+              } else {
+
+                $("#modal-default").modal('show')
+                let dataNama  = $(this).data('nama')
+                let dataTitle = $(this).data('judul')
+                let dataIsi   = $(this).data('isi')
+                $("#from_ann").val(dataNama)
+                $("#via_ann").val("Admin")
+                $("#title_ann").val(dataTitle)
+                $("#main_ann").val(dataIsi)
+
+              }
+
+            })
+          }
+        };
+        xhttp.open("GET", "data.php", true);
+        xhttp.send();
+      }, 1000)
+
+    }
+
+    loadData()
+
+    let getElementReason = document.querySelector(".reason")
+    let buttonNotApprove = document.querySelector("#not_approve")
+
+    document.addEventListener('click', function(e) {
+      if ( !buttonNotApprove.contains(e.target) ) {
+        $(".reason").hide()
+        $("#cancel_not_approve").hide()
+        $("#save_reason").hide()
+        $("#not_approve").show()
+        $("#approve").show()
+      }
+    })
+
   });
   
 </script>

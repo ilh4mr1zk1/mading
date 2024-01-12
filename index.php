@@ -86,6 +86,9 @@
 			<input type="email" name="email" id="email_signin" placeholder="Email" />
 			<!-- <small id="email" style="display: none;"></small> -->
 			<input type="password" id="password_signin" name="password" placeholder="Password" />
+			<div class="ksg" style="display: flex;margin-right: 70%;">
+				<input type="checkbox" id="cekboxs" style="margin-right: -7%;"> <span style="margin-left: 10%; font-size: 10px;"> Show Password </span>
+			</div>
 			<button type="submit" id="masuk" name="sign_in">Sign In</button>
 		</form>
 	</div>
@@ -162,6 +165,15 @@
 
 	$("#cekbox").click(function(){
 		let x = document.getElementById("passwordnya");
+	  	if (x.type === "password") {
+	    	x.type = "text";
+	  	} else {
+	  	  x.type = "password";
+	  }
+	})
+
+	$("#cekboxs").click(function(){
+		let x = document.getElementById("password_signin");
 	  	if (x.type === "password") {
 	    	x.type = "text";
 	  	} else {
