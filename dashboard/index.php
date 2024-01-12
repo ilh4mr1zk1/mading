@@ -113,14 +113,15 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-success ini_notif" id="count_message"> </span>
-            </a>
-            <ul class="dropdown-menu">
+          <?php if ($name_role == "HRD"): ?>
 
-              <?php if ($name_role == "HRD"): ?>
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-success ini_notif" id="count_message"> </span>
+              </a>
+              <ul class="dropdown-menu">
+
                 <li class="header">You have <span class="ini_notif_bwh"></span> messages not approve</li>
 
                 <li>
@@ -144,86 +145,143 @@
                   <?php endforeach; ?> -->
 
                 </ul>
+              </ul>
+            </li>
 
-              <?php else: ?>
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-thumbs-o-up"></i>
+                <span class="label label-warning">10</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
 
-                <li class="header">You have <span class="ini_notif_bwh"></span> messages</li>
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                  </ul>
+
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-thumbs-o-down"></i>
+                <span class="label label-warning">10</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
+
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                  </ul>
+
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+            </li>
+
+          <?php else: ?>
+
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-success ini_notif" id="count_message"> </span>
+              </a>
+              <ul class="dropdown-menu">
+
+                <li class="header">You have <span class="ini_notif_bwh"></span> messages not approve</li>
 
                 <li>
 
                 <ul class="menu" id="isi_pengumuman">
-                
-                  <li class="show_data">
+        
+                </ul>
+
+              </ul>
+            </li>
+
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-thumbs-o-up"></i>
+                <span class="label label-warning">10</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
+
+                  <ul class="menu">
+                    <li>
                       <a href="#">
-                        <div class="pull-left">
-                          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                        </div>
-                        <h4>
-                          <?php echo "BUKAN HRD" ?>
-                        </h4>
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
                       </a>
-                  </li>
-                
-                </ul>
+                    </li>
+                  </ul>
 
-              <?php endif; ?>
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+            </li>
 
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-thumbs-o-down"></i>
+                <span class="label label-warning">10</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
 
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-          <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                  </ul>
+
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown notifications-menu">
+
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bullhorn"></i>
+                <span class="label label-warning">10</span>
+              </a>
+
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
+
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                  </ul>
+
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+
+            </li>
+
+          <?php endif; ?>
           
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
@@ -255,10 +313,7 @@
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+
         </ul>
       </div>
     </nav>
@@ -362,8 +417,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
-        <li class="active"><a href="javascript:void(0);"><i class="fa fa-book"></i> <span>Announcement</span></a></li>
+        <?php if ($name_role == 'HRD'): ?>
+          <li class="active"> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
+        <?php else: ?>
+          <li> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
+          <li class="active"><a href="javascript:void(0);"><i class="fa fa-book"></i> <span>Announcement</span></a></li>
+        <?php endif; ?>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -372,66 +431,11 @@
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Fixed Layout
-        <small>Blank example to the fixed layout</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Layout</a></li>
-        <li class="active">Fixed</li>
-      </ol>
-    </section>
+  <div class="content-wrapper" id="taro_konten">
+    
+    <?php include 'dashboard.php'; ?>
 
-    <!-- Main content -->
-    <section class="content">
-      <!-- Default box -->
-       <div class="row">
-
-          <!-- left column -->
-          <div class="col-md-6">
-            
-            <!-- general form elements -->
-            <div class="box box-primary">
-              <div class="box-header with-border">
-                <h3 class="box-title"> Add Announcement </h3>
-              </div>
-
-              <form role="form">
-
-                <div class="box-body">
-
-                  <div class="form-group">
-                    <label for="exampleInputEmail1"> Title Announcement </label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Title Announcement">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Main Announcement</label>
-                    <textarea style="height: 129px; width: 100%;" class="form-control" id="exampleInputPassword1" placeholder="Announcement"></textarea>
-                  </div>
-
-                </div>
-
-                <div class="box-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-
-              </form>
-
-            </div>
-
-          </div>
-        </div>
-      <!-- /.box -->
-
-    </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
