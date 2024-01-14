@@ -94,7 +94,8 @@
 	 	$countDataNotYetAprrove = $user->countDataMessage();
 
 		$arr = [];
-		$outputNya = '';
+		$outputNya  = '';
+		$output_all = '';
 
 		$server 	= "localhost";
 		$username	= "root";
@@ -147,7 +148,36 @@
 		                  </a>
 		          	</li>
 		        ';
+
+		        $output_all .= 
+				'
+					<div style="border: 3px solid black;">
+						<div class="box-header" style="background-color: brown;">
+							<div data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; height: 15px;">
+				                <div class="box-header" style="position: absolute; left: auto; margin-top: -13px; color: white;">
+				                  <h3 class="box-title">From : '. $getDataMessage[$i]['nama_user'] .'</h3>               
+				                </div>
+				                <div class="box-header" style="position: absolute; right: 0; margin-top: -13px; color: white;">
+				                  <h3 class="box-title">Via : Admin</h3>               
+				                </div>
+			              	</div>
+		              	</div>
+		              	<br>
+		              	<div class="box-body" style="background-color: #ddd; margin-top: -20px;">
+			              	<div class="box-body ksg" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; margin-bottom: 15px;">
+				                <div class="pull-lefts" style="margin-bottom: 10px;">
+				                  <img src="../dist/img/user2-160x160.jpg" class="img-circle" style="width: 10%;" alt="User Image">
+				                </div>
+				                <p style="font-size:13px;"> Title <span style="margin-left: 60px;"> : </span> <strong> '. $getDataMessage[$i]['judul_pesan'] .' </strong> </p>
+				                <p style="font-size:13px;"> Announcement : '. $getDataMessage[$i]['isi_pesan'] .' </p>
+				               
+				            </div>
+			            </div>
+		            </div>
+		            <br>
+		        ';
 		    }
+
 
 		} else {
 
@@ -159,12 +189,15 @@
 	          	</li>
 	        ';
 
+	        $output_all .= '<div class="ksg" style="position: relative; width: 100%; margin-bottom: 35px;">KOSONG</div>';
+
 		}
 
 
-	    $arr['jumlah_notif'] = $countDataNotYetAprrove;
-		$arr['display_html'] = $outputNya;
-		$arr['count_message']= count($getDataMessage);
+	    $arr['jumlah_notif'] 		= $countDataNotYetAprrove;
+		$arr['display_html'] 		= $outputNya;
+		$arr['display_all_html'] 	= $output_all;
+		$arr['count_message']		= count($getDataMessage);
 
 		echo json_encode($arr);
 

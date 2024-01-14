@@ -84,6 +84,11 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style type="text/css">
+    #futer:hover {
+      background-color: lightgrey;
+    }
+  </style>
   
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
@@ -136,8 +141,8 @@
                             <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                           </div>
                           <h4>
-                            <p style="font-size:10px;"> From : <?= $data['nama_user']; ?> </p>
-                            <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
+                            <p style="font-size:13px;"> From : <?= $data['nama_user']; ?> </p>
+                            <p style="font-size:13px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
                           </h4>
                           <h4> <?= $data['isi_pesan']; ?> </h4>
                         </a>
@@ -145,6 +150,11 @@
                   <?php endforeach; ?> -->
 
                 </ul>
+
+                <li class="footer" style="cursor: pointer;">
+                  <a href="" id="futer"> See All Messages </a>
+                </li>
+
               </ul>
             </li>
 
@@ -380,6 +390,39 @@
           <button type="button" id="cancel_not_approve" class="btn btn-primary">Cancel</button>
           <button type="button" id="approve" class="btn btn-success">Approve</button>
           <button type="button" id="save_reason" class="btn btn-danger">Not Approved</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+   <div class="modal fade" id="modal-default-all">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width: 80%;margin-left: auto;margin-right: auto;">
+        <div class="modal-header" style="border-bottom-color: white;">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <center>
+              <h4 class="modal-title"> Announcement </h4>
+            </center>
+        </div>
+        <div class="modal-body" style="height:315px;">
+          <!-- <ul class="menu" id="isi_pengumumans">
+          </ul> -->
+          <section class="content" style="overflow-y: scroll; height: 300px;">
+
+            <!-- Default box -->
+            <div class="box all_data" style="cursor: pointer;">
+              
+            </div>
+            <!-- /.box -->
+
+          </section>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close_approve" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -640,7 +683,7 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -727,11 +770,6 @@
 
     })
 
-    $("#approve").click(function(e){
-      e.preventDefault()
-      alert('Setuju');
-    })
-
     $("#cancel_not_approve").click(function(){
       $("#cancel_not_approve").hide()
       $("#save_reason").hide()
@@ -764,16 +802,29 @@
       })
     })
 
+    $("#futer").click(function(e){
+      e.preventDefault()
+      $("#modal-default-all").modal('show')
+    })
+
     const loadData = () => {
 
       setInterval(function(){
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            console.log(JSON.parse(this.responseText));
-            document.querySelector(".ini_notif").innerHTML = JSON.parse(this.responseText).jumlah_notif
-            document.querySelector(".ini_notif_bwh").innerHTML = JSON.parse(this.responseText).jumlah_notif
+            let dataNotif = JSON.parse(this.responseText).jumlah_notif
+            // console.log(`ini data notif ${dataNotif}`);
+            if (dataNotif == 0) {
+              $(".ini_notif").hide()
+              document.querySelector(".ini_notif_bwh").innerHTML = dataNotif
+            } else {
+              $(".ini_notif").show()
+              document.querySelector(".ini_notif").innerHTML = dataNotif
+              document.querySelector(".ini_notif_bwh").innerHTML = dataNotif
+            }
             $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
+            $(".all_data").html(JSON.parse(this.responseText).display_all_html)
             $(".show_data").click(function(e){
               e.preventDefault()
               let dataId    = $(this).data('id')
@@ -802,6 +853,18 @@
                 $("#title_ann").val(dataTitle)
                 $("#main_ann").val(dataMain)
 
+                $("#approve").click(function(e){
+                  e.preventDefault()
+
+                  Swal.fire({
+                    title: "Approve",
+                    icon: "success"
+                  });
+
+                  $("#close_approve").click()
+
+                })
+
                 $("#not_approve").click(function(){
                   
                   $(".reason").show()
@@ -826,6 +889,74 @@
 
               }
 
+            })
+
+
+            $(".ksg").click(function(e){
+              let getNama = $(this).data('from')
+              alert(getNama);
+              let dataId    = $(this).data('id')
+              let dataNama  = $(this).data('from')
+              let dataTitle = $(this).data('title')
+              let dataMain  = $(this).data('main')
+
+              if (role === 'HRD') {
+
+                $("#modal-default").modal('show')
+                $("#modal-default-all").modal('hide')
+                from.setAttribute("readonly", "")
+                from.style.backgroundColor = '#eee'
+
+                via.setAttribute("readonly", "")
+                via.style.backgroundColor = '#eee'
+
+                title.setAttribute("readonly", "")
+                title.style.backgroundColor = '#eee'
+
+                main.setAttribute("readonly", "")
+                main.style.backgroundColor = '#eee'
+
+                $("#id_ann").val(dataId)
+                $("#from_ann").val(dataNama)
+                $("#via_ann").val("Admin")
+                $("#title_ann").val(dataTitle)
+                $("#main_ann").val(dataMain)
+
+                $("#approve").click(function(e){
+                  e.preventDefault()
+
+                  Swal.fire({
+                    title: "Approve",
+                    icon: "success"
+                  });
+
+                  $("#close_approve").click()
+
+                })
+
+                $("#not_approve").click(function(){
+                  
+                  $(".reason").show()
+                  $("#reason").focus()
+                  $("#cancel_not_approve").show()
+                  $("#save_reason").show()
+                  $("#not_approve").hide()
+                  $("#approve").hide()
+
+                })
+
+              } else {
+
+                $("#modal-default").modal('show')
+                let dataNama  = $(this).data('nama')
+                let dataTitle = $(this).data('judul')
+                let dataIsi   = $(this).data('isi')
+                $("#from_ann").val(dataNama)
+                $("#via_ann").val("Admin")
+                $("#title_ann").val(dataTitle)
+                $("#main_ann").val(dataIsi)
+
+              }
             })
           }
         };
