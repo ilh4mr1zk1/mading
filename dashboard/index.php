@@ -893,7 +893,6 @@
 
             $(".ksg").click(function(e){
               let getNama = $(this).data('from')
-              alert(getNama);
               let dataId    = $(this).data('id')
               let dataNama  = $(this).data('from')
               let dataTitle = $(this).data('title')
