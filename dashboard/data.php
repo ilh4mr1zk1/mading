@@ -90,7 +90,8 @@
 
 	} else {
 
-	 	$getDataMessage   		= $user->getDataMessage(1);
+	 	$getShortDataMessage   		= $user->getShortDataMessage(1);
+	 	$getAllDataMessage   		= $user->getAllDataMessage(1);
 	 	$countDataNotYetAprrove = $user->countDataMessage();
 
 		$arr = [];
@@ -130,32 +131,36 @@
 	    //     ';
 	    // }
 
-		if (count($getDataMessage) != 0) {
+		if (count($getShortDataMessage) != 0) {
 
-		    for ($i=0; $i < count($getDataMessage); $i++) { 
+		    for ($i=0; $i < count($getShortDataMessage); $i++) { 
 		    	$outputNya .= 
 				'
-					<li class="show_data" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
+					<li class="show_data" data-toggle="modal" data-id="'. $getShortDataMessage[$i]['message_id'] .'" data-from="'. $getShortDataMessage[$i]['nama_user'] .'" data-title="'. $getShortDataMessage[$i]['judul_pesan'] .'" data-main="'. $getShortDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
 		                  <a href="#">
 		                    <div class="pull-left">
 		                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 		                    </div>
 		                    <h4>
-		                      <p style="font-size:10px;"> From : '. $getDataMessage[$i]['nama_user'] .' </p>
+		                      <p style="font-size:10px;"> From : '. $getShortDataMessage[$i]['nama_user'] .' </p>
 		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
 		                    </h4>
-		                    <h4> '. $getDataMessage[$i]['isi_pesan'] .' </h4>
+		                    <h4> '. $getShortDataMessage[$i]['isi_pesan'] .' </h4>
 		                  </a>
 		          	</li>
 		        ';
+		        
+		    }
 
-		        $output_all .= 
+		    for ($i=0; $i < count($getAllDataMessage); $i++) {
+
+		    	$output_all .= 
 				'
 					<div style="border: 3px solid black;">
 						<div class="box-header" style="background-color: brown;">
-							<div data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; height: 15px;">
+							<div data-toggle="modal" data-id="'. $getAllDataMessage[$i]['message_id'] .'" data-from="'. $getAllDataMessage[$i]['nama_user'] .'" data-title="'. $getAllDataMessage[$i]['judul_pesan'] .'" data-main="'. $getAllDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; height: 15px;">
 				                <div class="box-header" style="position: absolute; left: auto; margin-top: -13px; color: white;">
-				                  <h3 class="box-title">From : '. $getDataMessage[$i]['nama_user'] .'</h3>               
+				                  <h3 class="box-title">From : '. $getAllDataMessage[$i]['nama_user'] .'</h3>               
 				                </div>
 				                <div class="box-header" style="position: absolute; right: 0; margin-top: -13px; color: white;">
 				                  <h3 class="box-title">Via : Admin</h3>               
@@ -164,12 +169,12 @@
 		              	</div>
 		              	<br>
 		              	<div class="box-body" style="background-color: #ddd; margin-top: -20px;">
-			              	<div class="box-body ksg" data-toggle="modal" data-id="'. $getDataMessage[$i]['message_id'] .'" data-from="'. $getDataMessage[$i]['nama_user'] .'" data-title="'. $getDataMessage[$i]['judul_pesan'] .'" data-main="'. $getDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; margin-bottom: 15px;">
+			              	<div class="box-body ksg" data-toggle="modal" data-id="'. $getAllDataMessage[$i]['message_id'] .'" data-from="'. $getAllDataMessage[$i]['nama_user'] .'" data-title="'. $getAllDataMessage[$i]['judul_pesan'] .'" data-main="'. $getAllDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; margin-bottom: 15px;">
 				                <div class="pull-lefts" style="margin-bottom: 10px;">
 				                  <img src="../dist/img/user2-160x160.jpg" class="img-circle" style="width: 10%;" alt="User Image">
 				                </div>
-				                <p style="font-size:13px;"> Title <span style="margin-left: 60px;"> : </span> <strong> '. $getDataMessage[$i]['judul_pesan'] .' </strong> </p>
-				                <p style="font-size:13px;"> Announcement : '. $getDataMessage[$i]['isi_pesan'] .' </p>
+				                <p style="font-size:13px;"> Title <span style="margin-left: 60px;"> : </span> <strong> '. $getAllDataMessage[$i]['judul_pesan'] .' </strong> </p>
+				                <p style="font-size:13px;"> Announcement : '. $getAllDataMessage[$i]['isi_pesan'] .' </p>
 				               
 				            </div>
 			            </div>
@@ -177,7 +182,6 @@
 		            <br>
 		        ';
 		    }
-
 
 		} else {
 
@@ -197,7 +201,7 @@
 	    $arr['jumlah_notif'] 		= $countDataNotYetAprrove;
 		$arr['display_html'] 		= $outputNya;
 		$arr['display_all_html'] 	= $output_all;
-		$arr['count_message']		= count($getDataMessage);
+		$arr['count_message']		= count($getAllDataMessage);
 
 		echo json_encode($arr);
 

@@ -227,7 +227,53 @@ class Auth {
         }
     }
 
-    public function getDataMessage($status_approve = 'kosong') {
+    public function getShortDataMessage($status_approve = 'kosong') {
+        try {
+
+            if ($status_approve == 'kosong' || $status_approve == 0 || $status_approve == 1) {
+                
+                // echo "Masuk Ke if $status_approve";exit;
+                $getDataNotif   = $this->db->prepare("
+                    SELECT message.id as message_id, message.message_title as judul_pesan, message.message_info as isi_pesan, message.status_approve as status_approve, message.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message 
+                    LEFT JOIN users
+                    ON message.user_id = users.id
+                    WHERE message.status_approve = :stat_approve 
+                    LIMIT 0, 3 ");
+                $getDataNotif->bindParam(":stat_approve", $status_approve);
+                $getDataNotif->execute();
+                $getDataNotif->rowCount();
+                $data = $getDataNotif->fetchAll();
+                $hitungDataNotif = $getDataNotif->rowCount();
+                // for ($i=0; $i < $hitungDataNotif; $i++) { 
+                //     echo $data[$i]['message_title'] . "<br>";
+                // }
+                return $data;
+
+            } else if ($status_approve !== 'kosong' || $status_approve !== 0) {
+
+                echo "Masuk Ke else if ";exit;
+
+                $getDataNotif   = $this->db->prepare("SELECT * FROM message WHERE status_approve = :stat_approve ");
+                $getDataNotif->bindParam(":stat_approve", $status_approve);
+                $getDataNotif->execute();
+                $getDataNotif->rowCount();
+                $data = $getDataNotif->fetchAll();
+                $hitungDataNotif = $getDataNotif->rowCount();
+                return $data;
+
+            }
+
+
+        } catch (Exception $e) {
+            
+            echo $e->getMessage();
+
+            return false;
+
+        }
+    }
+
+     public function getAllDataMessage($status_approve = 'kosong') {
         try {
 
             if ($status_approve == 'kosong' || $status_approve == 0 || $status_approve == 1) {

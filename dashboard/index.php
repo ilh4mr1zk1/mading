@@ -22,7 +22,6 @@
   // status_approve = 3 (tidak di approve) 
 
   $countDataMessage = $user->countDataMessage();
-  $getDataMessage   = $user->getDataMessage(1);
 
   // foreach ($getDataMessage as $row) {
   //   echo $row["message_id"] . " - " . $row["judul_pesan"] . " - " . $row["nama_user"] . "<br/>";
