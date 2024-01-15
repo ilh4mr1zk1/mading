@@ -18,7 +18,7 @@
 	}
 
   // status_approve = 1 (belum di approve)
-  // status_approve = 2 (sudah di approve)
+  // status_approve = 2 (approve)
   // status_approve = 3 (tidak di approve) 
 
   $countDataMessage = $user->countDataMessage();
@@ -714,6 +714,7 @@
     $(".reason").hide()
     $("#cancel_not_approve").hide()
     $("#save_reason").hide()
+    $("#approve").hide()
 
     $(".show_data").click(function(){
 
@@ -806,6 +807,42 @@
       $("#modal-default-all").modal('show')
     })
 
+    $("#approve").click(function(e){
+      e.preventDefault()
+      let dataId    = document.querySelector("#id_ann").value
+
+      $.ajax({
+        url  : "data.php",
+        type : "POST",
+        data : {
+          message_title  : title.value,
+          message_info   : main.value,
+          status_approve : 2,
+          id             : dataId,
+          reason         : 0
+        },
+        success:function(data) {
+
+          $("#id_ann").val("")
+          $("#from_ann").val("")
+          $("#via_ann").val("")
+          $("#title_ann").val("")
+          $("#main_ann").val("")
+
+          console.log(JSON.parse(data));
+          Swal.fire({
+            title: "Approve",
+            icon: "success"
+          });
+
+          $("#close_approve").click()
+
+        }
+
+      })
+
+    })
+
     const loadData = () => {
 
       setInterval(function(){
@@ -824,6 +861,7 @@
             }
             $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
             $(".all_data").html(JSON.parse(this.responseText).display_all_html)
+
             $(".show_data").click(function(e){
               e.preventDefault()
               let dataId    = $(this).data('id')
@@ -832,8 +870,15 @@
               let dataMain  = $(this).data('main')
 
               if (role === 'HRD') {
-
+                
                 $("#modal-default").modal('show')
+
+                $("#id_ann").val("")
+                $("#from_ann").val("")
+                $("#via_ann").val("")
+                $("#title_ann").val("")
+                $("#main_ann").val("")
+
                 from.setAttribute("readonly", "")
                 from.style.backgroundColor = '#eee'
 
@@ -852,17 +897,7 @@
                 $("#title_ann").val(dataTitle)
                 $("#main_ann").val(dataMain)
 
-                $("#approve").click(function(e){
-                  e.preventDefault()
-
-                  Swal.fire({
-                    title: "Approve",
-                    icon: "success"
-                  });
-
-                  $("#close_approve").click()
-
-                })
+                $("#approve").show()                
 
                 $("#not_approve").click(function(){
                   
@@ -890,17 +925,27 @@
 
             })
 
-
             $(".ksg").click(function(e){
+              e.preventDefault()
+              $("#approve").hide()
               let getNama = $(this).data('from')
               let dataId    = $(this).data('id')
               let dataNama  = $(this).data('from')
               let dataTitle = $(this).data('title')
               let dataMain  = $(this).data('main')
+              alert(dataNama);
+              $("#from_ann").val(dataNama)
 
               if (role === 'HRD') {
 
                 $("#modal-default").modal('show')
+
+                $("#id_ann").val("")
+                $("#from_ann").val("")
+                $("#via_ann").val("")
+                $("#title_ann").val("")
+                $("#main_ann").val("")
+
                 $("#modal-default-all").modal('hide')
                 from.setAttribute("readonly", "")
                 from.style.backgroundColor = '#eee'
@@ -920,17 +965,7 @@
                 $("#title_ann").val(dataTitle)
                 $("#main_ann").val(dataMain)
 
-                $("#approve").click(function(e){
-                  e.preventDefault()
-
-                  Swal.fire({
-                    title: "Approve",
-                    icon: "success"
-                  });
-
-                  $("#close_approve").click()
-
-                })
+                $("#approve").show()
 
                 $("#not_approve").click(function(){
                   
@@ -958,6 +993,7 @@
             })
           }
         };
+
         xhttp.open("GET", "data.php", true);
         xhttp.send();
       }, 1000)

@@ -1,6 +1,6 @@
 <?php  
 
-	require_once "../dbconfig.php";
+	require_once "../../dbconfig.php";
 
 	// Cek status login user jika ada session
 	if ($user->isLoggedIn()) {

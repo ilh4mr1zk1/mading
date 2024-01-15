@@ -20,13 +20,33 @@
 
 		$user->updateData($messsage_title, $message_info, $status_approve, $id);
 
-		if ($reason !== '') {
-			$user->insertDataReason($id, $reason);
-		} else {
-			$reason = "tidak ada komentar";
-			$user->insertDataReason($id);
-		}
+		if ($reason == 0) {
+			
+			$getDataNoApprove = $user->getDataNoApprove();
 
+			$arr = [];
+
+			$countDataNotYetAprrove = $user->countDataMessage();
+
+	        $arr['id']              = $id;
+	        $arr['message_title']   = $messsage_title;
+	        $arr['message_info']    = $message_info;
+	        $arr['status_approve']  = $status_approve;
+	        $arr['not_yet_approve'] = $countDataNotYetAprrove;
+
+			echo json_encode($arr);
+			exit;
+
+		} else if ( $reason === '' ){
+
+			$reason = "tidak ada komentar";
+			$user->insertDataReason($id, $reason);
+
+		} else if ( $reason !== '' ) {
+			
+			$user->insertDataReason($id, $reason);
+
+		}
 
 		$getDataNoApprove = $user->getDataNoApprove();
 
@@ -88,9 +108,32 @@
 
 		echo json_encode($arr);
 
+	} else if (isset($_POST['message_title']) && isset($_POST['message_info']) && isset($_POST['status_approve']) && isset($_POST['id'])) {
+
+		$messsage_title = $_POST['message_title'];
+		$message_info 	= $_POST['message_info'];
+		$status_approve = $_POST['status_approve'];
+		$id 		    = $_POST['id'];
+
+		$user->updateDataApprove($messsage_title, $message_info, $status_approve, $id);
+		// $user->updateData($messsage_title, $message_info, $status_approve, $id);
+		$getDataNoApprove = $user->getDataNoApprove();
+
+		$arr = [];
+
+		$countDataNotYetAprrove = $user->countDataMessage();
+
+        $arr['id']              = $id;
+        $arr['message_title']   = $messsage_title;
+        $arr['message_info']    = $message_info;
+        $arr['status_approve']  = $status_approve ;
+        $arr['not_yet_approve'] = $countDataNotYetAprrove;
+
+		echo json_encode($arr);
+
 	} else {
 
-	 	$getShortDataMessage   		= $user->getShortDataMessage(1);
+		$getShortDataMessage   		= $user->getShortDataMessage(1);
 	 	$getAllDataMessage   		= $user->getAllDataMessage(1);
 	 	$countDataNotYetAprrove = $user->countDataMessage();
 
