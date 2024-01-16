@@ -178,7 +178,7 @@
 		if (count($getShortDataMessage) != 0) {
 		    for ($i=0; $i < count($getShortDataMessage); $i++) {
 		    	$isiPesan = ''; 
-		    	$isiPesan = strlen($getShortDataMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataMessage[$i]['isi_pesan'] . "</h4>";
+		    	$semuaPesan = strlen($getShortDataMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataMessage[$i]['isi_pesan'] . "</h4>";
 		    	$outputNya .= 
 				'
 					<li class="show_data" data-toggle="modal" data-id="'. $getShortDataMessage[$i]['message_id'] .'" data-from="'. $getShortDataMessage[$i]['nama_user'] .'" data-title="'. $getShortDataMessage[$i]['judul_pesan'] .'" data-main="'. $getShortDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
@@ -190,7 +190,7 @@
 		                      <p style="font-size:10px;"> From : '. $getShortDataMessage[$i]['nama_user'] .' </p>
 		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
 		                    </h4>
-		                    ' . $isiPesan . '
+		                    ' . $semuaPesan . '
 		                  </a>
 		          	</li>
 		        ';

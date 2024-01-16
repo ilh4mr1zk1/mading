@@ -892,6 +892,10 @@
           console.log(JSON.parse(data));
           $("#close_approve").click()
           $("#reason").val("")
+          Swal.fire({
+            icon: "error",
+            title: "Not Approve"
+          });
         }
       })
     })
@@ -916,6 +920,10 @@
           console.log(JSON.parse(data));
           $("#close_approve_see").click()
           $("#reason_see").val("")
+          Swal.fire({
+            icon: "error",
+            title: "Not Approve"
+          });
         }
       })
     })
@@ -995,6 +1003,7 @@
     $("#not_approve_see").click(function(e){
 
       $(".reason_see").show()
+      $("#reason_see").focus()
       $("#not_approve_see").hide()
       $("#approve_see").hide()
       $("#cancel_not_approve_see").show()
@@ -1159,15 +1168,25 @@
     $("#tutup_see").click(function(e){
       e.preventDefault()
       $("#modal-default-all").modal("show")
+      $(".reason_see").hide()
+      $("#approve_see").hide()
+      $("#cancel_not_approve_see").hide()
+      $("#save_reason_see").hide()
+      $("#not_approve_see").show()
+      $("#cancel_not_approve_see").hide()
+      $("#approve_see").show()
     })
 
     $("#close_approve_see").click(function(e){
       e.preventDefault()
-      alert('close');
       $("#modal-default-all").modal("show")
       $(".reason_see").hide()
       $("#approve_see").hide()
       $("#cancel_not_approve_see").hide()
+      $("#save_reason_see").hide()
+      $("#not_approve_see").show()
+      $("#cancel_not_approve_see").hide()
+      $("#approve_see").show()
     })
 
     loadData()
