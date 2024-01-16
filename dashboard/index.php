@@ -126,7 +126,7 @@
               </a>
               <ul class="dropdown-menu">
 
-                <li class="header">You have <span class="ini_notif_bwh"></span> messages not approve</li>
+                <li class="header">You have <span class="ini_notif_bwh"></span> messages not yet approve</li>
 
                 <li>
 
@@ -796,6 +796,7 @@
     $("#save_reason_see").hide()
     $("#approve").hide()
     $("#approve_see").hide() 
+    $("#not_approve_see").hide()
 
     $(".show_data").click(function(){
 
@@ -864,9 +865,9 @@
     $("#cancel_not_approve_see").click(function(e){
       e.preventDefault()
       $("#modal-default-all").modal("hide")
-      $("#cancel_not_approve_see").hide()
       $("#save_reason_see").hide()
       $("#not_approve_see").show()
+      $("#cancel_not_approve_see").hide()
       $("#approve_see").show()
       $(".reason_see").hide()
     })
@@ -991,6 +992,16 @@
 
     })
 
+    $("#not_approve_see").click(function(e){
+
+      $(".reason_see").show()
+      $("#not_approve_see").hide()
+      $("#approve_see").hide()
+      $("#cancel_not_approve_see").show()
+      $("#save_reason_see").show()
+
+    })
+
     const loadData = () => {
 
       setInterval(function(){
@@ -1080,7 +1091,6 @@
 
             $(".ksg").click(function(e){
               e.preventDefault()
-              $("#approve").hide()
 
               klikAll = 1;
               console.log(klikAll);
@@ -1120,18 +1130,9 @@
                 $("#title_ann_see").val(dataTitle)
                 $("#main_ann_see").val(dataMain)
 
+                $("#not_approve_see").show()
+
                 $("#approve_see").show()
-
-                $("#not_approve_see").click(function(){
-                  
-                  $(".reason_see").show()
-                  $("#reason_see").focus()
-                  $("#cancel_not_approve_see").show()
-                  $("#save_reason_see").show()
-                  $("#not_approve_see").hide()
-                  $("#approve_see").hide()
-
-                })
 
               } else {
 
@@ -1162,7 +1163,11 @@
 
     $("#close_approve_see").click(function(e){
       e.preventDefault()
+      alert('close');
       $("#modal-default-all").modal("show")
+      $(".reason_see").hide()
+      $("#approve_see").hide()
+      $("#cancel_not_approve_see").hide()
     })
 
     loadData()
@@ -1170,7 +1175,6 @@
     let getElementReason    = document.querySelector(".reason")
     let buttonNotApprove    = document.querySelector("#not_approve")
     let elementModalContent = document.querySelector(".modal-content")
-    let elementModalSee     = document.querySelector(".modal-see")
 
     // document.addEventListener('click', function(e) {
     //   if ( elementModalSee.contains(e.target) ) {
