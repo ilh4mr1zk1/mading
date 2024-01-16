@@ -396,7 +396,75 @@
     <!-- /.modal-dialog -->
   </div>
 
-   <div class="modal fade" id="modal-default-all">
+  <div class="modal fade" id="modal-default-see">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="border-bottom-color: white;">
+          <button type="button" class="close" id="tutup_see" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <center>
+              <h4 class="modal-title"> Announcement </h4>
+            </center>
+        </div>
+        <div class="modal-body" style="margin-bottom: 10px;">
+
+            <div class="box-body" style="padding-left: 60px; padding-right: 60px;">
+
+              <form role="form" id="forms">
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> From </label>
+                      <input type="" name="" id="from_ann_see" style="width: 60%; margin-left: 10px;">
+                      <input type="" name="" id="id_ann_see" style="width: 60%; margin-left: 10px;">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Via </label>
+                      <input type="" id="via_ann_see" name="" style="width: 25%; margin-left: 10px;">
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="title_ann_see">Title Announcement</label>
+                  <input type="text" id="title_ann_see" class="form-control" placeholder="Title Announcement ...">
+                </div>
+
+                <div class="form-group">
+                  <label for="main_ann_see">Announcement</label>
+                  <textarea style="height: 150px;" class="form-control" id="main_ann_see" rows="3" placeholder="Announcement ..."></textarea>
+                </div>
+
+                <div class="form-group reason_see">
+                  <label for="reason">Reason (Optional)</label>
+                  <input type="text" id="reason_see" class="form-control" placeholder="Reason ... (Optional)">
+                </div>
+
+              </form>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close_approve_see" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" id="not_approve_see" class="btn btn-danger">Not approved</button>
+          <button type="button" id="cancel_not_approve_see" class="btn btn-primary">Cancel</button>
+          <button type="button" id="approve_see" class="btn btn-success">Approve</button>
+          <button type="button" id="save_reason_see" class="btn btn-danger">Not Approved</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <div class="modal fade" id="modal-default-all">
     <div class="modal-dialog">
       <div class="modal-content" style="width: 80%;margin-left: auto;margin-right: auto;">
         <div class="modal-header" style="border-bottom-color: white;">
@@ -700,21 +768,34 @@
   $(document).ready( function () {
     
     let role              = `<?= $name_role; ?>` 
+    
     const id              = document.querySelector("#id_ann")
     const from            = document.querySelector("#from_ann")
     const via             = document.querySelector("#via_ann")
     const title           = document.querySelector("#title_ann")
     const main            = document.querySelector("#main_ann")
+
+    const id_see          = document.querySelector("#id_ann_see")
+    const from_see        = document.querySelector("#from_ann_see")
+    const via_see         = document.querySelector("#via_ann_see")
+    const title_see       = document.querySelector("#title_ann_see")
+    const main_see        = document.querySelector("#main_ann_see")
+
     let countDataMessage  = `<?= $countDataMessage; ?>`
     console.log(role);
 
     const forms = document.querySelector("#forms")
 
     $("#id_ann").hide()
+    $("#id_ann_see").hide()
     $(".reason").hide()
+    $(".reason_see").hide()
     $("#cancel_not_approve").hide()
+    $("#cancel_not_approve_see").hide()
     $("#save_reason").hide()
+    $("#save_reason_see").hide()
     $("#approve").hide()
+    $("#approve_see").hide() 
 
     $(".show_data").click(function(){
 
@@ -770,12 +851,24 @@
 
     })
 
+    let klikAll = 0;
+
     $("#cancel_not_approve").click(function(){
       $("#cancel_not_approve").hide()
       $("#save_reason").hide()
       $("#not_approve").show()
       $("#approve").show()
       $(".reason").hide()
+    })
+
+    $("#cancel_not_approve_see").click(function(e){
+      e.preventDefault()
+      $("#modal-default-all").modal("hide")
+      $("#cancel_not_approve_see").hide()
+      $("#save_reason_see").hide()
+      $("#not_approve_see").show()
+      $("#approve_see").show()
+      $(".reason_see").hide()
     })
 
     $("#save_reason").click(function(e){
@@ -802,9 +895,28 @@
       })
     })
 
-    $("#futer").click(function(e){
+    $("#save_reason_see").click(function(e){
       e.preventDefault()
-      $("#modal-default-all").modal('show')
+
+      let dataIdSee = document.querySelector("#id_ann_see").value
+      let reasonSee = document.querySelector("#reason_see").value
+
+      $.ajax({
+        url   : "data.php",
+        type  : "POST",
+        data  : {
+          message_title  : title_see.value,
+          message_info   : main_see.value,
+          status_approve : 3,
+          id             : dataIdSee,
+          reason         : reasonSee
+        },
+        success:function(data) {
+          console.log(JSON.parse(data));
+          $("#close_approve_see").click()
+          $("#reason_see").val("")
+        }
+      })
     })
 
     $("#approve").click(function(e){
@@ -843,6 +955,42 @@
 
     })
 
+    $("#approve_see").click(function(e){
+      e.preventDefault()
+      let dataIdSee    = document.querySelector("#id_ann_see").value
+
+      $.ajax({
+        url  : "data.php",
+        type : "POST",
+        data : {
+          message_title  : title_see.value,
+          message_info   : main_see.value,
+          status_approve : 2,
+          id             : dataIdSee,
+          reason         : 0
+        },
+        success:function(data) {
+
+          $("#id_ann_see").val("")
+          $("#from_ann_see").val("")
+          $("#via_ann_see").val("")
+          $("#title_ann_see").val("")
+          $("#main_ann_see").val("")
+
+          console.log(JSON.parse(data));
+          Swal.fire({
+            title: "Approve",
+            icon: "success"
+          });
+
+          $("#close_approve_see").click()
+
+        }
+
+      })
+
+    })
+
     const loadData = () => {
 
       setInterval(function(){
@@ -861,6 +1009,11 @@
             }
             $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
             $(".all_data").html(JSON.parse(this.responseText).display_all_html)
+
+            $("#futer").click(function(e){
+              e.preventDefault()
+              $("#modal-default-all").modal('show')
+            })
 
             $(".show_data").click(function(e){
               e.preventDefault()
@@ -928,53 +1081,55 @@
             $(".ksg").click(function(e){
               e.preventDefault()
               $("#approve").hide()
+
+              klikAll = 1;
+              console.log(klikAll);
               let getNama = $(this).data('from')
               let dataId    = $(this).data('id')
               let dataNama  = $(this).data('from')
               let dataTitle = $(this).data('title')
               let dataMain  = $(this).data('main')
-              alert(dataNama);
-              $("#from_ann").val(dataNama)
 
               if (role === 'HRD') {
 
-                $("#modal-default").modal('show')
+                $("#modal-default-see").modal('show')
 
-                $("#id_ann").val("")
-                $("#from_ann").val("")
-                $("#via_ann").val("")
-                $("#title_ann").val("")
-                $("#main_ann").val("")
+                $("#id_ann_see").val("")
+                $("#from_ann_see").val("")
+                $("#via_ann_see").val("")
+                $("#title_ann_see").val("")
+                $("#main_ann_see").val("")
 
-                $("#modal-default-all").modal('hide')
-                from.setAttribute("readonly", "")
-                from.style.backgroundColor = '#eee'
+                // $("#modal-default-all").modal
+                $("#modal-default-all").modal("hide")
+                from_see.setAttribute("readonly", "")
+                from_see.style.backgroundColor = '#eee'
 
-                via.setAttribute("readonly", "")
-                via.style.backgroundColor = '#eee'
+                via_see.setAttribute("readonly", "")
+                via_see.style.backgroundColor = '#eee'
 
-                title.setAttribute("readonly", "")
-                title.style.backgroundColor = '#eee'
+                title_see.setAttribute("readonly", "")
+                title_see.style.backgroundColor = '#eee'
 
-                main.setAttribute("readonly", "")
-                main.style.backgroundColor = '#eee'
+                main_see.setAttribute("readonly", "")
+                main_see.style.backgroundColor = '#eee'
 
-                $("#id_ann").val(dataId)
-                $("#from_ann").val(dataNama)
-                $("#via_ann").val("Admin")
-                $("#title_ann").val(dataTitle)
-                $("#main_ann").val(dataMain)
+                $("#id_ann_see").val(dataId)
+                $("#from_ann_see").val(dataNama)
+                $("#via_ann_see").val("Admin")
+                $("#title_ann_see").val(dataTitle)
+                $("#main_ann_see").val(dataMain)
 
-                $("#approve").show()
+                $("#approve_see").show()
 
-                $("#not_approve").click(function(){
+                $("#not_approve_see").click(function(){
                   
-                  $(".reason").show()
-                  $("#reason").focus()
-                  $("#cancel_not_approve").show()
-                  $("#save_reason").show()
-                  $("#not_approve").hide()
-                  $("#approve").hide()
+                  $(".reason_see").show()
+                  $("#reason_see").focus()
+                  $("#cancel_not_approve_see").show()
+                  $("#save_reason_see").show()
+                  $("#not_approve_see").hide()
+                  $("#approve_see").hide()
 
                 })
 
@@ -1000,21 +1155,42 @@
 
     }
 
+    $("#tutup_see").click(function(e){
+      e.preventDefault()
+      $("#modal-default-all").modal("show")
+    })
+
+    $("#close_approve_see").click(function(e){
+      e.preventDefault()
+      $("#modal-default-all").modal("show")
+    })
+
     loadData()
 
     let getElementReason    = document.querySelector(".reason")
     let buttonNotApprove    = document.querySelector("#not_approve")
     let elementModalContent = document.querySelector(".modal-content")
+    let elementModalSee     = document.querySelector(".modal-see")
+
+    // document.addEventListener('click', function(e) {
+    //   if ( elementModalSee.contains(e.target) ) {
+
+    //     $("#modal-default-all").modal("show")
+      
+    //   }
+    // })
 
     document.addEventListener('click', function(e) {
       if ( !buttonNotApprove.contains(e.target) && !forms.contains(e.target) && !elementModalContent.contains(e.target) ) {
+
         $(".reason").hide()
         $("#cancel_not_approve").hide()
         $("#save_reason").hide()
         $("#not_approve").show()
         $("#approve").show()
         $("#reason").val("")
-      }
+      
+      } 
     })
 
   });

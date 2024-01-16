@@ -155,6 +155,7 @@
             WHERE message.status_approve = 1 ";
 		
 		$result = mysqli_query($conn, $queryNya);
+		$gj = '';
 
 		// while ($row = mysqli_fetch_array($result)) { 
 		// 	$outputNya .= 
@@ -175,8 +176,9 @@
 	    // }
 
 		if (count($getShortDataMessage) != 0) {
-
-		    for ($i=0; $i < count($getShortDataMessage); $i++) { 
+		    for ($i=0; $i < count($getShortDataMessage); $i++) {
+		    	$isiPesan = ''; 
+		    	$isiPesan = strlen($getShortDataMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataMessage[$i]['isi_pesan'] . "</h4>";
 		    	$outputNya .= 
 				'
 					<li class="show_data" data-toggle="modal" data-id="'. $getShortDataMessage[$i]['message_id'] .'" data-from="'. $getShortDataMessage[$i]['nama_user'] .'" data-title="'. $getShortDataMessage[$i]['judul_pesan'] .'" data-main="'. $getShortDataMessage[$i]['isi_pesan'] .'" data-target="modal-default">
@@ -188,7 +190,7 @@
 		                      <p style="font-size:10px;"> From : '. $getShortDataMessage[$i]['nama_user'] .' </p>
 		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
 		                    </h4>
-		                    <h4> '. $getShortDataMessage[$i]['isi_pesan'] .' </h4>
+		                    ' . $isiPesan . '
 		                  </a>
 		          	</li>
 		        ';
@@ -213,7 +215,7 @@
 		              	<br>
 		              	<div class="box-body" style="background-color: #ddd; margin-top: -20px;">
 			              	<div class="box-body ksg" data-toggle="modal" data-id="'. $getAllDataMessage[$i]['message_id'] .'" data-from="'. $getAllDataMessage[$i]['nama_user'] .'" data-title="'. $getAllDataMessage[$i]['judul_pesan'] .'" data-main="'. $getAllDataMessage[$i]['isi_pesan'] .'" data-target="modal-default" style="position: relative; width: 100%; margin-bottom: 15px;">
-				                <div class="pull-lefts" style="margin-bottom: 10px;">
+				                <div class="pull-lefts" style="margin-bottom: 10px; ">
 				                  <img src="../dist/img/user2-160x160.jpg" class="img-circle" style="width: 10%;" alt="User Image">
 				                </div>
 				                <p style="font-size:13px;"> Title <span style="margin-left: 60px;"> : </span> <strong> '. $getAllDataMessage[$i]['judul_pesan'] .' </strong> </p>

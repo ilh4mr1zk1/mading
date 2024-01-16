@@ -238,6 +238,7 @@ class Auth {
                     LEFT JOIN users
                     ON message.user_id = users.id
                     WHERE message.status_approve = :stat_approve 
+                    order by message.id DESC
                     LIMIT 0, 3 ");
                 $getDataNotif->bindParam(":stat_approve", $status_approve);
                 $getDataNotif->execute();
@@ -283,7 +284,8 @@ class Auth {
                     SELECT message.id as message_id, message.message_title as judul_pesan, message.message_info as isi_pesan, message.status_approve as status_approve, message.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message 
                     LEFT JOIN users
                     ON message.user_id = users.id
-                    WHERE message.status_approve = :stat_approve ");
+                    WHERE message.status_approve = :stat_approve 
+                    order by message.id DESC");
                 $getDataNotif->bindParam(":stat_approve", $status_approve);
                 $getDataNotif->execute();
                 $getDataNotif->rowCount();
@@ -365,7 +367,7 @@ class Auth {
 
     public function getDataNoApprove() {
 
-        $queryGetDataNoApprove   = $this->db->prepare("SELECT * FROM message WHERE status_approve = '3' ");
+        $queryGetDataNoApprove   = $this->db->prepare("SELECT * FROM message WHERE status_approve = '3' order by message.id DESC");
         // $getDataNotif->bindParam(":stat_approve", $status_approve);
         $queryGetDataNoApprove->execute();
         $data = $queryGetDataNoApprove->fetch();
