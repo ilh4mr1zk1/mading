@@ -530,21 +530,15 @@
         <?php if ($name_role == 'HRD'): ?>
           <li class="active"> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
         <?php else: ?>
-          <li> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
-          <li class="active"><a href="javascript:void(0);"><i class="fa fa-book"></i> <span>Announcement</span></a></li>
+          <li class="active" id="side_bar_dashboard"> <a href=""> <i class="fa fa-dashboard"></i> Dashboard </a> </li>
+          <li id="side_bar_announcement"><a href="javascript:void(0);"><i class="fa fa-book"></i> <span>Announcement</span></a></li>
         <?php endif; ?>
       </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
 
-  <!-- =============================================== -->
-
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="taro_konten">
-    
-    <?php include 'dashboard.php'; ?>
-
   </div>
 
   <footer class="main-footer">
@@ -798,60 +792,6 @@
     $("#approve_see").hide() 
     $("#not_approve_see").hide()
 
-    $(".show_data").click(function(){
-
-      if (role === 'HRD') {
-
-        $("#modal-default").modal('show')
-        from.setAttribute("readonly", "")
-        from.style.backgroundColor = '#eee'
-
-        via.setAttribute("readonly", "")
-        via.style.backgroundColor = '#eee'
-
-        title.setAttribute("readonly", "")
-        title.style.backgroundColor = '#eee'
-
-        main.setAttribute("readonly", "")
-        main.style.backgroundColor = '#eee'
-
-        let dataId    = $(this).data('id')
-        let dataNama  = $(this).data('nama')
-        let dataTitle = $(this).data('judul')
-        let dataIsi   = $(this).data('isi')
-
-        $("#id_ann").val(dataId)
-        $("#from_ann").val(dataNama)
-        $("#via_ann").val("Admin")
-        $("#title_ann").val(dataTitle)
-        $("#main_ann").val(dataIsi)
-
-        $("#not_approve").click(function(){
-          
-          $(".reason").show()
-          $("#reason").focus()
-          $("#cancel_not_approve").show()
-          $("#save_reason").show()
-          $("#not_approve").hide()
-          $("#approve").hide()
-
-        })
-
-      } else {
-
-        $("#modal-default").modal('show')
-        let dataNama  = $(this).data('nama')
-        let dataTitle = $(this).data('judul')
-        let dataIsi   = $(this).data('isi')
-        $("#from_ann").val(dataNama)
-        $("#via_ann").val("Admin")
-        $("#title_ann").val(dataTitle)
-        $("#main_ann").val(dataIsi)
-
-      }
-
-    })
-
     let klikAll = 0;
 
     $("#cancel_not_approve").click(function(){
@@ -1011,6 +951,8 @@
 
     })
 
+    $("#taro_konten").load("dashboard.php")
+
     const loadData = () => {
 
       setInterval(function(){
@@ -1018,7 +960,7 @@
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             let dataNotif = JSON.parse(this.responseText).jumlah_notif
-            // console.log(`ini data notif ${dataNotif}`);
+            console.log(JSON.parse(this.responseText).jumlah_approve);
             if (dataNotif == 0) {
               $(".ini_notif").hide()
               document.querySelector(".ini_notif_bwh").innerHTML = dataNotif
@@ -1086,10 +1028,10 @@
               } else {
 
                 $("#modal-default").modal('show')
-                let dataNama  = $(this).data('nama')
-                let dataTitle = $(this).data('judul')
-                let dataIsi   = $(this).data('isi')
-                $("#from_ann").val(dataNama)
+                let dataFrom  = $(this).data('from')
+                let dataTitle = $(this).data('title')
+                let dataIsi   = $(this).data('main')
+                $("#from_ann").val(dataFrom)
                 $("#via_ann").val("Admin")
                 $("#title_ann").val(dataTitle)
                 $("#main_ann").val(dataIsi)
@@ -1190,6 +1132,32 @@
     })
 
     loadData()
+
+    $('#side_bar_dashboard').click(function(e) {
+      e.preventDefault();
+
+      let dashboard = $(this).attr('id');
+
+      if (dashboard == "side_bar_dashboard") {
+        $("#side_bar_dashboard").addClass("active")
+        $("#side_bar_announcement").removeClass("active")
+        $('#taro_konten').load('dashboard.php')
+      }
+
+    });
+
+    $('#side_bar_announcement').click(function(e) {
+      e.preventDefault();
+
+      let announcement = $(this).attr('id');
+
+      if (announcement == "side_bar_announcement") {
+        $("#side_bar_announcement").addClass("active")
+        $("#side_bar_dashboard").removeClass("active")
+        $('#taro_konten').load('announcement.php')
+      }
+
+    });
 
     let getElementReason    = document.querySelector(".reason")
     let buttonNotApprove    = document.querySelector("#not_approve")
