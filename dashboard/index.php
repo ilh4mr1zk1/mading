@@ -11,6 +11,7 @@
 
 	$nama_user = $_SESSION['nama_user'];
   $name_role = $_SESSION['name_role'];
+  $user_id   = $_SESSION['user_id'];
 
 	if (isset($_POST['logout'])) {
 		session_destroy();
@@ -84,9 +85,38 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <style type="text/css">
+    
     #futer:hover {
       background-color: lightgrey;
     }
+
+    .portfolio:hover {
+      background-color: blue;
+    }
+
+    #gambar {
+      height: 100%;
+      width: 100%;
+      margin-bottom: 20px;
+      object-fit: cover;
+      background: #dfdfdf;
+    }
+
+    /*#taro_isi_dashboard .portfolio {
+      opacity: 0;
+      transform: translate(0, -40px);
+      transition: .5s;
+    }
+
+    #taro_isi_dashboard .portfolio.muncul {
+      opacity: 1;
+      transform: translate(0, 0);
+    }*/
+
+    .portfolio {
+      cursor: pointer;
+    }
+
   </style>
   
 </head>
@@ -425,7 +455,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Via </label>
-                      <input type="" id="via_ann_see" name="" style="width: 25%; margin-left: 10px;">
+                      <input type="" id="via_ann_see" name="" style="width: 25%; margin-left: 23.4px;">
                     </div>
                   </div>
 
@@ -762,6 +792,8 @@
   $(document).ready( function () {
     
     let role              = `<?= $name_role; ?>` 
+    
+    const user_id           = `<?= $user_id; ?>`;
     
     const id              = document.querySelector("#id_ann")
     const from            = document.querySelector("#from_ann")
@@ -1120,7 +1152,7 @@
     })
 
     $("#close_approve_see").click(function(e){
-      e.preventDefault()
+      e.preventDefault
       $("#modal-default-all").modal("show")
       $(".reason_see").hide()
       $("#approve_see").hide()
@@ -1132,6 +1164,18 @@
     })
 
     loadData()
+
+    // $(window).scroll(function() {
+    //   var wScroll = $(this).scrollTop();
+    //   if( wScroll > $('#taro_isi_dashboard').offset().top - 250 ) {
+    //     $('#taro_isi_dashboard .portfolio').each(function(i) {
+    //       setTimeout(function() {
+    //         $('#taro_isi_dashboard .portfolio').eq(i).addClass('muncul');  
+    //       }, 200 * (i+1));
+    //     })
+
+    //   }
+    // })
 
     $('#side_bar_dashboard').click(function(e) {
       e.preventDefault();
@@ -1154,7 +1198,10 @@
       if (announcement == "side_bar_announcement") {
         $("#side_bar_announcement").addClass("active")
         $("#side_bar_dashboard").removeClass("active")
-        $('#taro_konten').load('announcement.php')
+        $('#taro_konten').load('announcement.php', {
+          isi_title : "TEST",
+          user_id   : user_id
+        })
       }
 
     });
@@ -1162,14 +1209,6 @@
     let getElementReason    = document.querySelector(".reason")
     let buttonNotApprove    = document.querySelector("#not_approve")
     let elementModalContent = document.querySelector(".modal-content")
-
-    // document.addEventListener('click', function(e) {
-    //   if ( elementModalSee.contains(e.target) ) {
-
-    //     $("#modal-default-all").modal("show")
-      
-    //   }
-    // })
 
     document.addEventListener('click', function(e) {
       if ( !buttonNotApprove.contains(e.target) && !forms.contains(e.target) && !elementModalContent.contains(e.target) ) {

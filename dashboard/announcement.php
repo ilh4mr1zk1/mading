@@ -1,3 +1,16 @@
+<?php  
+
+  if (isset($_POST['isi_title']) && isset($_POST['user_id'])) {
+    // echo $_POST['isi_title'];
+    $isi_title = $_POST['isi_title'];
+    $user_id   = $_POST['user_id'];
+    // echo $user_id; 
+  } else {
+    echo "ga ada";
+  }
+  
+?>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
@@ -24,15 +37,20 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form">
+        <form id="form_announ">
           <div class="box-body">
             <div class="form-group">
               <label for="exampleInputEmail1"> Title </label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Title ...">
+              <input type="text" class="form-control" id="isi_title" placeholder="Title ...">
+            </div>
+            <div class="form-group buatGambar">
+              <div id="imgPreview">
+                
+              </div>
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1"> Announcement </label>
-              <textarea class="form-control" style="height: 120px;" id="exampleInputPassword1" placeholder="Announcement ..."></textarea>
+              <textarea class="form-control" style="height: 120px;" id="announcement" placeholder="Announcement ..."></textarea>
             </div>
           </div>
           <!-- /.box-body -->
@@ -50,3 +68,110 @@
   <!-- /.row -->
 </section>
 <!-- /.content -->
+
+<script type="text/javascript">
+
+  // $("#gambar").hide()
+  // let getTitle = `<?= $isi_title; ?>`
+  // $("#isi_title").val(getTitle)
+  
+
+  $(document).ready( function () {
+    
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        $(".buatGambar").append(JSON.parse(this.responseText).upload_img)
+        $("#gambar").hide()
+        const image = document.querySelector("img[id='gambar']"),
+        input = document.querySelector(".fileGambar");
+        let forImage  = ''
+
+        input.addEventListener("change", (event) => {
+          let filePath          = input.value; 
+          let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+          if (!allowedExtensions.exec(filePath)) {
+
+            alert("Please upload file having extensions .jpg/.jpeg/.png/.gif only !");
+            input.value = '';
+            return false;
+
+          } else {
+
+            const inputFile = input.files[0]
+            const limit     = 2000;
+            const size      = inputFile.size/1024;
+
+            if (size > limit) {
+              
+              const err = new Error(`File too big : ${(size/1000).toFixed(2)} MB`);
+              alert(err);
+
+              return err;
+
+            } else {
+              alert("Ok ukuran pas");
+              // option 1 
+              // if (input.files && input.files[0]) {
+              //   let reader = new FileReader();
+              //   reader.onload = function(e) {
+              //     document.getElementById("imgPreview").innerHTML = '<img style = "width: 100%; height: 100%; margin-bottom: 15px;" src=" ' + e.target.result + ' " />';
+              //   };
+              //   reader.readAsDataURL(input.files[0]);
+              // }
+
+              // option 2
+              $("#gambar").show()
+              image.src = URL.createObjectURL(input.files[0]);
+              const files = event.target.files;
+
+              for (const file of files) {
+                forImage = file.name;
+              }
+
+            }
+
+          }
+
+        })
+
+        $( "#form_announ" ).on( "submit", function( event ) {
+          let title         = $("#isi_title").val()
+          let image         = forImage
+          let announcement  = $("#announcement").val()
+          let user_id       = `<?= $user_id; ?>`
+          alert(`${title} & ${image} & ${announcement}`);
+
+          $.ajax({
+            url  : "data.php",
+            type : "POST",
+            data : {
+              title          : title,
+              image          : image,
+              announcement   : announcement,
+              status_approve : 1,
+              user_id        : user_id
+            },
+            success:function(data){
+              console.log(JSON.parse(data));
+            }
+          })
+
+          event.preventDefault();
+
+        });
+
+      }
+    };
+
+    xhttp.open("GET", "data.php", true);
+    xhttp.send();
+
+    
+
+  });
+  
+
+
+</script>

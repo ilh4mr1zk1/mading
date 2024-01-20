@@ -17,7 +17,6 @@
 
       <div class="row" id="taro_isi_dashboard">
 
-        
 
       </div>
      
@@ -36,6 +35,10 @@
           let dataNotif = JSON.parse(this.responseText).jumlah_notif
           // console.log(JSON.parse(this.responseText).display_html_approve);
           $("#taro_isi_dashboard").html(JSON.parse(this.responseText).display_html_approve)
+          $(".portfolio").click(function(e) {
+            let from_nama = $(this).data('from')
+            alert(from_nama);
+          })
         }
       };
 

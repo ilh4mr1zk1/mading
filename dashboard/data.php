@@ -110,12 +110,12 @@
 
 	} else if (isset($_POST['message_title']) && isset($_POST['message_info']) && isset($_POST['status_approve']) && isset($_POST['id'])) {
 
-		$messsage_title = $_POST['message_title'];
+		$message_title  = $_POST['message_title'];
 		$message_info 	= $_POST['message_info'];
 		$status_approve = $_POST['status_approve'];
 		$id 		    = $_POST['id'];
 
-		$user->updateDataApprove($messsage_title, $message_info, $status_approve, $id);
+		$user->updateDataApprove($message_title, $message_info, $status_approve, $id);
 		// $user->updateData($messsage_title, $message_info, $status_approve, $id);
 		$getDataNoApprove = $user->getDataNoApprove();
 
@@ -124,10 +124,29 @@
 		$countDataNotYetAprrove = $user->countDataMessage();
 
         $arr['id']              = $id;
-        $arr['message_title']   = $messsage_title;
+        $arr['message_title']   = $message_title;
         $arr['message_info']    = $message_info;
         $arr['status_approve']  = $status_approve ;
         $arr['not_yet_approve'] = $countDataNotYetAprrove;
+
+		echo json_encode($arr);
+
+	} else if (isset($_POST['title']) && isset($_POST['image']) && isset($_POST['announcement']) && isset($_POST['status_approve']) && isset($_POST['user_id'])) {
+
+		$message_title 	= $_POST['title'];
+		$message_info 	= $_POST['announcement'];
+		$image 			= $_POST['image'];
+		$status_approve = $_POST['status_approve'];
+		$user_id        = $_POST['user_id'];
+
+		$user->insertDataMessageApprove($message_title, $message_info, $image, $status_approve, $user_id);
+
+		$arr = [];
+
+        $arr['message_title']   = $message_title;
+        $arr['message_info']    = $message_info;
+        $arr['status_approve']  = $status_approve ;
+        $arr['user_id']         = $user_id;
 
 		echo json_encode($arr);
 
@@ -139,9 +158,10 @@
 	 	$countDataNotYetAprrove 		= $user->countDataMessage();
 
 		$arr = [];
-		$outputNya  = '';
-		$output_all = '';
-		$allDataApprove = '';
+		$outputNya       = '';
+		$output_all      = '';
+		$allDataApprove  = '';
+		$forImage        = '';
 
 		if (count($getShortDataNotifMessage) != 0) {
 
@@ -221,7 +241,7 @@
 			            <div class="box-header with-border">
 
 			              <div class="user-block">
-			                <img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">
+			                <img class="img-circle" src="../dist/img/defaults.jpg" alt="User Image">
 			                <span class="username"><a href="#">' . $getAllDataApproveMessage[$i]['nama_user'] . '</a></span>
 			                <span class="description">Shared publicly - 7:30 PM Today</span>
 			              </div>
@@ -233,57 +253,11 @@
 
 			            </div>
 
-			            <div class="box-body">
+			            <div class="box-body portfolio" data-from=' . $getAllDataApproveMessage[$i]['nama_user'] . '>
 			              <h5> <strong> Title  : ' . $getAllDataApproveMessage[$i]['judul_pesan'] . ' </strong> </h5>
 			              <img class="img-responsive pad" src="../dist/img/photo2.png" alt="Photo">
 
-			              <p> I took this photo this morning. What do you guys think? </p>
-			              <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-			              <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-			              <span class="pull-right text-muted">127 likes - 3 comments</span>
-			            </div>
-
-			            <div class="box-footer box-comments">
-			              <div class="box-comment">
-			                <!-- User image -->
-			                <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
-
-			                <div class="comment-text">
-			                      <span class="username">
-			                        Maria Gonzales
-			                        <span class="text-muted pull-right">8:03 PM Today</span>
-			                      </span>
-			                  It is a long established fact that a reader will be distracted
-			                  by the readable content of a page when looking at its layout.
-			                </div>
-
-			              </div>
-
-			              <div class="box-comment">
-
-			                <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
-
-			                <div class="comment-text">
-			                      <span class="username">
-			                        Luna Stark
-			                        <span class="text-muted pull-right">8:03 PM Today</span>
-			                      </span>
-			                  It is a long established fact that a reader will be distracted
-			                  by the readable content of a page when looking at its layout.
-			                </div>
-
-			              </div>
-
-			            </div>
-
-			            <div class="box-footer">
-			              <form action="#" method="post">
-			                <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
-			                <!-- .img-push is used to add margin to elements next to floating images -->
-			                <div class="img-push">
-			                  <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-			                </div>
-			              </form>
+			              <p> <strong> ' . $getAllDataApproveMessage[$i]['isi_pesan'] . ' </strong> </p>
 			            </div>
 
 		          	</div>
@@ -297,18 +271,24 @@
 
 		}
 
+		$forImage .= '
+			<div>
+               <img src="default.jpg" id="gambar">
+               <label for="exampleInputEmail1"> Upload Image Mading (*Tidak lebih dari 2 MB) </label>
+               <input type="file" class="form-control fileGambar" accept="image/jpg">
+            </div>';
+
 	    $arr['jumlah_notif'] 			= $countDataNotYetAprrove;
 		$arr['display_html'] 			= $outputNya;
 		$arr['display_all_html'] 		= $output_all;
 		$arr['count_message']			= count($getAllDataNotYetApproveMessage);
 		$arr['display_html_approve']    = $allDataApprove;
 		$arr['jumlah_approve'] 			= $getAllDataApproveMessage;
+		$arr['upload_img'] 				= $forImage;
 
 		echo json_encode($arr);
 
 	}
-
-	// $hasilUpdate = $user->getDataMessage()
 
 	exit;
 
