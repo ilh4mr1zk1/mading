@@ -30,13 +30,39 @@
 			echo $email;
 			mysqli_query($conn, $queryRegister);exit;
 		} else if ($role_id == 1) {
-			for ($i = 0; $i < count($kodeHRD); $i++) { 
-				if ($getKodeHRD == $kodeHRD[$i]) {
-					$taroKodeHRD[] = "ada";
-				} else {
-					$taroKodeHRD[] = "ga ada";
-				}
-			}
+
+			// Cara 1
+			// for ($i = 0; $i < count($kodeHRD); $i++) { 
+			// 	if ($getKodeHRD == $kodeHRD[$i]) {
+			// 		$taroKodeHRD[] = "ada";
+			// 	} else {
+			// 		$taroKodeHRD[] = "ga ada";
+			// 	}
+			// }
+
+			// Cara 2 
+			if (in_array($getKodeHRD, $kodeHRD)) {
+				$queryRegister     = "INSERT INTO users VALUES ('', '$nama_user', '$email', '$passwordHash', '$role_id')";
+
+				$tampungData = [];
+				$tampungData['code_error'] = 0;
+				$tampungData['email'] = $email;
+				echo json_encode($tampungData);
+				mysqli_query($conn, $queryRegister);
+				
+  			} else {
+
+  				$tampungData = [];
+				$tampungData['code_error'] = 1;
+				$tampungData['nama_user']  = $nama_user;
+				$tampungData['email']      = $email;
+				$tampungData['password']   = $password;
+				$tampungData['role_id']    = $role_id;
+				$tampungData['kode_hrd']   = $getKodeHRD;
+
+				echo json_encode($tampungData);
+  			}
+
 		} else {
 			$queryRegister     = "INSERT INTO users VALUES ('', '$nama_user', '$email', '$passwordHash', '$role_id')";
 			echo $email;
@@ -45,35 +71,37 @@
 
 		$yes = 0;
 
-		for ($i = 0; $i < count($taroKodeHRD); $i++) { 
-			if ($taroKodeHRD[$i] == 'ada') {
-				$yes = 1;
-			}
-		}
+		// Cara 1
+		// for ($i = 0; $i < count($taroKodeHRD); $i++) { 
+		// 	if ($taroKodeHRD[$i] == 'ada') {
+		// 		$yes = 1;
+		// 	}
+		// }
 		
-		if ($yes == 1) {
+		// if ($yes == 1) {
 
-			$queryRegister     = "INSERT INTO users VALUES ('', '$nama_user', '$email', '$passwordHash', '$role_id')";
+		// 	$queryRegister     = "INSERT INTO users VALUES ('', '$nama_user', '$email', '$passwordHash', '$role_id')";
 
-			$tampungData = [];
-			$tampungData['code_error'] = 0;
-			$tampungData['email'] = $email;
-			echo json_encode($tampungData);
-			mysqli_query($conn, $queryRegister);
+		// 	$tampungData = [];
+		// 	$tampungData['code_error'] = 0;
+		// 	$tampungData['email'] = $email;
+		// 	echo json_encode($tampungData);
+		// 	mysqli_query($conn, $queryRegister);
 
-		} else {
+		// } else {
 
-			$tampungData = [];
-			$tampungData['code_error'] = 1;
-			$tampungData['nama_user']  = $nama_user;
-			$tampungData['email']      = $email;
-			$tampungData['password']   = $password;
-			$tampungData['role_id']    = $role_id;
-			$tampungData['kode_hrd']   = $getKodeHRD;
+		// 	$tampungData = [];
+		// 	$tampungData['code_error'] = 1;
+		// 	$tampungData['nama_user']  = $nama_user;
+		// 	$tampungData['email']      = $email;
+		// 	$tampungData['password']   = $password;
+		// 	$tampungData['role_id']    = $role_id;
+		// 	$tampungData['kode_hrd']   = $getKodeHRD;
 
-			echo json_encode($tampungData);
+		// 	echo json_encode($tampungData);
 
-		}
+		// }
+		// Akhir Cara 1
 
 	}
 

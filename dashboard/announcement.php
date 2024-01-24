@@ -37,11 +37,11 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form id="form_announ">
+        <form id="form_announ" method="post" enctype="multipart/form-data">
           <div class="box-body">
             <div class="form-group">
               <label for="exampleInputEmail1"> Title </label>
-              <input type="text" class="form-control" id="isi_title" placeholder="Title ...">
+              <input type="text" class="form-control" name="title_ann" required id="isi_title" placeholder="Title ...">
             </div>
             <div class="form-group buatGambar">
               <div id="imgPreview">
@@ -50,13 +50,13 @@
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1"> Announcement </label>
-              <textarea class="form-control" style="height: 120px;" id="announcement" placeholder="Announcement ..."></textarea>
+              <textarea class="form-control" style="height: 120px;" required name="announcement" id="announcement" placeholder="Announcement ..."></textarea>
             </div>
           </div>
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="kirimData" class="btn btn-primary">Submit</button>
           </div>
         </form>
       </div>
@@ -78,14 +78,18 @@
 
   $(document).ready( function () {
     
+    let allTrue   = 0;
+    let untukForm = '';
+    
     let xhttp = new XMLHttpRequest();
+    
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         $(".buatGambar").append(JSON.parse(this.responseText).upload_img)
         $("#gambar").hide()
         const image = document.querySelector("img[id='gambar']"),
         input = document.querySelector(".fileGambar");
-        let forImage  = ''
+        let forImage  = '' 
 
         input.addEventListener("change", (event) => {
           let filePath          = input.value; 
@@ -94,6 +98,7 @@
           if (!allowedExtensions.exec(filePath)) {
 
             alert("Please upload file having extensions .jpg/.jpeg/.png/.gif only !");
+            $("#gambar").hide()
             input.value = '';
             return false;
 
@@ -106,12 +111,16 @@
             if (size > limit) {
               
               const err = new Error(`File too big : ${(size/1000).toFixed(2)} MB`);
+              $("#gambar").hide()
+              input.value = '';
               alert(err);
 
-              return err;
+              return false;
 
             } else {
+
               alert("Ok ukuran pas");
+
               // option 1 
               // if (input.files && input.files[0]) {
               //   let reader = new FileReader();
@@ -136,29 +145,25 @@
 
         })
 
-        $( "#form_announ" ).on( "submit", function( event ) {
-          let title         = $("#isi_title").val()
-          let image         = forImage
-          let announcement  = $("#announcement").val()
-          let user_id       = `<?= $user_id; ?>`
-          alert(`${title} & ${image} & ${announcement}`);
+        $("form#form_announ").on("submit", function(e) {
+          
+          e.preventDefault()
 
+          let formData = new FormData(this);
           $.ajax({
-            url  : "data.php",
-            type : "POST",
-            data : {
-              title          : title,
-              image          : image,
-              announcement   : announcement,
-              status_approve : 1,
-              user_id        : user_id
-            },
-            success:function(data){
+            url         : "upload.php",
+            type        : "POST",
+            data        : formData,
+            cache       : false,
+            processData : false,
+            contentType : false,
+            success     : function(data) {
+              $('#form_announ').trigger("reset");
+              $("#gambar").hide()
               console.log(JSON.parse(data));
+              // console.log(data);
             }
           })
-
-          event.preventDefault();
 
         });
 
@@ -168,10 +173,6 @@
     xhttp.open("GET", "data.php", true);
     xhttp.send();
 
-    
-
   });
-  
-
 
 </script>

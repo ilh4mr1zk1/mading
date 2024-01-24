@@ -1,6 +1,7 @@
 <?php  
 
 	require_once "../dbconfig.php";
+  // require 'data.php';
 
     error_reporting();
 
@@ -97,7 +98,7 @@
     #gambar {
       height: 100%;
       width: 100%;
-      margin-bottom: 20px;
+      margin-top: 10px;
       object-fit: cover;
       background: #dfdfdf;
     }
@@ -387,7 +388,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label> Via </label>
-                      <input type="" id="via_ann" name="" style="width: 25%; margin-left: 10px;">
+                      <input type="" id="via_ann" name="" style="width: 25%; margin-left: 23.5px;">
                     </div>
                   </div>
 
@@ -396,6 +397,12 @@
                 <div class="form-group">
                   <label for="title_ann">Title Announcement</label>
                   <input type="text" id="title_ann" class="form-control" placeholder="Title Announcement ...">
+                </div>
+
+                <div class="form-group gambar_banner">
+                  <label for="banner"> Banner </label>
+                  <!-- <input type="text" id="banner" name=""> -->
+                  <img class="img-responsive pad" id="banner" alt="Photo">
                 </div>
 
                 <div class="form-group">
@@ -944,6 +951,7 @@
         url  : "data.php",
         type : "POST",
         data : {
+
           message_title  : title_see.value,
           message_info   : main_see.value,
           status_approve : 2,
@@ -1011,9 +1019,12 @@
 
             $(".show_data").click(function(e){
               e.preventDefault()
+              const image = document.querySelector("img[id='banner']")
               let dataId    = $(this).data('id')
               let dataNama  = $(this).data('from')
               let dataTitle = $(this).data('title')
+              let dataImage = $(this).data('img')
+              alert(dataImage);
               let dataMain  = $(this).data('main')
 
               if (role === 'HRD') {
@@ -1042,6 +1053,7 @@
                 $("#from_ann").val(dataNama)
                 $("#via_ann").val("Admin")
                 $("#title_ann").val(dataTitle)
+                image.setAttribute("src", `../img/${dataImage}`)
                 $("#main_ann").val(dataMain)
 
                 $("#approve").show()                

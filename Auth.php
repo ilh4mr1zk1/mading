@@ -235,7 +235,7 @@ class Auth {
                 
                 // echo "Masuk Ke if $status_approve";exit;
                 $getDataNotif   = $this->db->prepare("
-                    SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                    SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.image as image, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
                     LEFT JOIN users
                     ON message_approve.user_id = users.id
                     WHERE message_approve.status_approve = :stat_approve 
@@ -326,7 +326,7 @@ class Auth {
   
             // echo "Masuk Ke if $status_approve";exit;
             $getDataNotif   = $this->db->prepare("
-                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.image as banner, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
                 LEFT JOIN users
                 ON message_approve.user_id = users.id
                 WHERE message_approve.status_approve = :stat_approve 
@@ -354,8 +354,8 @@ class Auth {
 
         try {
             
-            $queryUpdate   = $this->db->prepare("UPDATE mading_practice.message_approve SET message_title = '$message_title', message_info = '$message_info', status_approve ='$status_approve' WHERE id = '$id' ");
-            // $getDataNotif->bindParam(":stat_approve", $status_approve);
+            $queryUpdate   = $this->db->prepare("UPDATE mading_practice.message_approve SET status_approve = '$status_approve' WHERE id = :id ");
+            $queryUpdate->bindParam(":id", $id);
             $queryUpdate->execute();
 
         } catch (PDOException $e) {
