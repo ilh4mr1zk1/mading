@@ -31,8 +31,8 @@
 
     // print_r($_POST);exit;
 	$arr 				 = [];
-	$arr['title'] 		 = $_POST['title_ann'];
-	$arr['announcement'] = $_POST['announcement'];
+	$arr['title'] 		 = htmlspecialchars($_POST['title_ann']);
+	$arr['announcement'] = htmlspecialchars($_POST['announcement']);
 	$arr['nama_gambar']  = $_FILES['banner']['name'];
 	$arr['tmp_name']  	 = $_FILES['banner']['tmp_name'];
 	$arr['status']  	 = "Success Add Data";

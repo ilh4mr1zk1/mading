@@ -160,6 +160,10 @@
             success     : function(data) {
               $('#form_announ').trigger("reset");
               $("#gambar").hide()
+              Swal.fire({
+                title: "Approve",
+                icon: "success"
+              });
               console.log(JSON.parse(data));
               // console.log(data);
             }

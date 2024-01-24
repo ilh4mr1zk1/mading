@@ -256,7 +256,7 @@
 			              <div class="user-block">
 			                <img class="img-circle" src="../dist/img/defaults.jpg" alt="User Image">
 			                <span class="username"><a href="#">' . $getAllDataApproveMessage[$i]['nama_user'] . '</a></span>
-			                <span class="description">Shared publicly - 7:30 PM Today</span>
+			                <span class="description">Shared publicly - ' . date('d F Y H:i:s', strtotime($getAllDataApproveMessage[$i]['tgl_approve'])) . ' </span>
 			              </div>
 
 			              <div class="box-tools">

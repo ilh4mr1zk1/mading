@@ -91,10 +91,6 @@
       background-color: lightgrey;
     }
 
-    .portfolio:hover {
-      background-color: blue;
-    }
-
     #gambar {
       height: 100%;
       width: 100%;
@@ -1024,7 +1020,6 @@
               let dataNama  = $(this).data('from')
               let dataTitle = $(this).data('title')
               let dataImage = $(this).data('img')
-              alert(dataImage);
               let dataMain  = $(this).data('main')
 
               if (role === 'HRD') {
