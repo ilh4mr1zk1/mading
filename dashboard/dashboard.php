@@ -19,9 +19,16 @@
 
 
       </div>
+
      
     </section>
 <!-- /.content -->
+    <div class="container">
+      <div class="popup-image">
+        <span> &times; </span>
+        <img src="../img/65afaee448de8.jpg" alt="">
+      </div>
+    </div>
 
 <script type="text/javascript">
   $(document).ready( function () {
@@ -32,13 +39,21 @@
       let xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          let dataNotif = JSON.parse(this.responseText).jumlah_notif
           // console.log(JSON.parse(this.responseText).display_html_approve);
           $("#taro_isi_dashboard").html(JSON.parse(this.responseText).display_html_approve)
-          $(".portfolio").click(function(e) {
-            let from_nama = $(this).data('from')
-            alert(from_nama);
-          })
+
+          document.querySelectorAll('.portfolio img').forEach(image => {
+            image.onclick = (e) => {
+              e.preventDefault()
+              document.querySelector(".popup-image").style.display = 'block';
+              document.querySelector(".popup-image img").src = image.getAttribute('src')
+            }
+          });
+
+          document.querySelector(".popup-image span").onclick = () => {
+            document.querySelector('.popup-image').style.display = 'none'
+          }
+
         }
       };
 

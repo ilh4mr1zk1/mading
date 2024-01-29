@@ -161,8 +161,9 @@
               $('#form_announ').trigger("reset");
               $("#gambar").hide()
               Swal.fire({
-                title: "Approve",
-                icon: "success"
+                title : "Success send announcement",
+                text  : "Waiting for Confirm",
+                icon  : "success"
               });
               console.log(JSON.parse(data));
               // console.log(data);

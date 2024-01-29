@@ -60,7 +60,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Fixed Layout</title>
+  <title> Mading School </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -99,6 +99,101 @@
       background: #dfdfdf;
     }
 
+    #modal-content-semua {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .container .popup-image {
+      position: fixed;
+      top: 0; left: 100px;
+      background: rgba(0, 0, 0, 0.9);
+      height: 100%;
+      width: 100%;
+      z-index: 100;
+      margin-top: 30px;
+      display: none;
+    }
+
+    .container .popup-image span {
+      position: absolute;
+      top: 0; right: 150px;
+      font-size: 60px;
+      font-weight: bolder;
+      color: #fff;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .container .popup-image img {
+      position: absolute;
+      top: 50%; left: 50%;
+      height: 80%;
+      transform: translate(-50%, -50%) scale(1);
+      border: 5px solid #fff;
+      border-radius: 5px;
+      width: 750px;
+      object-fit: cover;
+    }
+
+    .pad {
+      padding: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width:768px) {
+
+      .bnnr {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #modal-content-semua {
+        margin-top: 30%;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #modal-content-semua #modal-body-semua {
+        padding: 10px;
+      }
+
+      .container .popup-image {
+        position: fixed;
+        top: 2%; left: 0;
+        background: rgba(0, 0, 0, 0.9);
+        height: 100%;
+        width: 100%;
+        z-index: 100;
+        margin-top: 30px;
+        display: none;
+      }
+
+      .container .popup-image span {
+        position: absolute;
+        top: 8%; right: 21px;
+        font-size: 35px;
+        font-weight: bolder;
+        color: #fff;
+        cursor: pointer;
+        z-index: 100;
+      }
+
+      .container .popup-image img {
+        position: absolute;
+        top: 50%; left: 50%;
+        height: auto;
+        transform: translate(-50%, -50%) scale(1);
+        border: 5px solid #fff;
+        border-radius: 5px;
+        width: 90%;
+        object-fit: cover;
+      }
+    }
+
     /*#taro_isi_dashboard .portfolio {
       opacity: 0;
       transform: translate(0, -40px);
@@ -129,7 +224,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Mading</b>School</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -153,7 +248,7 @@
               </a>
               <ul class="dropdown-menu">
 
-                <li class="header">You have <span class="ini_notif_bwh"></span> messages not yet approve</li>
+                <li class="header">You have <span class="ini_notif_bwh_all"></span> messages not yet approve</li>
 
                 <li>
 
@@ -237,7 +332,7 @@
               </a>
               <ul class="dropdown-menu">
 
-                <li class="header">You have <span class="ini_notif_bwh"></span> messages not approve</li>
+                <li class="header">You have <span class="ini_notif_bwh_all"></span> messages not approve</li>
 
                 <li>
 
@@ -246,75 +341,6 @@
                 </ul>
 
               </ul>
-            </li>
-
-            <li class="dropdown notifications-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-thumbs-o-up"></i>
-                <span class="label label-warning">10</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have 10 notifications</li>
-                <li>
-
-                  <ul class="menu">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
-                  </ul>
-
-                </li>
-                <li class="footer"><a href="#">View all</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown notifications-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-thumbs-o-down"></i>
-                <span class="label label-warning">10</span>
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have 10 notifications</li>
-                <li>
-
-                  <ul class="menu">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
-                  </ul>
-
-                </li>
-                <li class="footer"><a href="#">View all</a></li>
-              </ul>
-            </li>
-
-            <li class="dropdown notifications-menu">
-
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bullhorn"></i>
-                <span class="label label-warning">10</span>
-              </a>
-
-              <ul class="dropdown-menu">
-                <li class="header">You have 10 notifications</li>
-                <li>
-
-                  <ul class="menu">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
-                  </ul>
-
-                </li>
-                <li class="footer"><a href="#">View all</a></li>
-              </ul>
-
             </li>
 
           <?php endif; ?>
@@ -429,8 +455,8 @@
     <!-- /.modal-dialog -->
   </div>
 
-  <div class="modal fade" id="modal-default-see">
-    <div class="modal-dialog">
+  <div class="modal fade" tabindex="-1" role="dialog" id="modal-default-see">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
         <div class="modal-header" style="border-bottom-color: white;">
           <button type="button" class="close" id="tutup_see" data-dismiss="modal" aria-label="Close">
@@ -439,9 +465,9 @@
               <h4 class="modal-title"> Announcement </h4>
             </center>
         </div>
-        <div class="modal-body" style="margin-bottom: 10px;">
+        <div class="modal-body" style="margin-bottom: 10px; height: 450px;">
 
-            <div class="box-body" style="padding-left: 60px; padding-right: 60px;">
+            <div class="box-body" style="padding-left: 60px; padding-right: 60px; overflow-y: scroll; height: 425px;">
 
               <form role="form" id="forms">
 
@@ -467,6 +493,11 @@
                 <div class="form-group">
                   <label for="title_ann_see">Title Announcement</label>
                   <input type="text" id="title_ann_see" class="form-control" placeholder="Title Announcement ...">
+                </div>
+
+                <div class="form-group gambar_banner_see">
+                  <label for="banner_see"> Banner </label>
+                  <img class="img-responsive pad" id="banner_see" alt="Photo">
                 </div>
 
                 <div class="form-group">
@@ -499,7 +530,7 @@
 
   <div class="modal fade" id="modal-default-all">
     <div class="modal-dialog">
-      <div class="modal-content" style="width: 80%;margin-left: auto;margin-right: auto;">
+      <div class="modal-content" id="modal-content-semua">
         <div class="modal-header" style="border-bottom-color: white;">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
@@ -507,7 +538,7 @@
               <h4 class="modal-title"> Announcement </h4>
             </center>
         </div>
-        <div class="modal-body" style="height:315px;">
+        <div class="modal-body" id="modal-body-semua" style="height:315px;">
           <!-- <ul class="menu" id="isi_pengumumans">
           </ul> -->
           <section class="content" style="overflow-y: scroll; height: 300px;">
@@ -868,8 +899,9 @@
           $("#close_approve").click()
           $("#reason").val("")
           Swal.fire({
-            icon: "error",
-            title: "Not Approve"
+            icon  : "error",
+            title : "Not Approve",
+            timer : 1000
           });
         }
       })
@@ -927,8 +959,9 @@
 
           console.log(JSON.parse(data));
           Swal.fire({
-            title: "Approve",
-            icon: "success"
+            title : "Approve",
+            icon  : "success",
+            timer : 1000
           });
 
           $("#close_approve").click()
@@ -995,18 +1028,44 @@
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            let dataNotif = JSON.parse(this.responseText).jumlah_notif
+
+            let dataNotif    = JSON.parse(this.responseText).jumlah_notif
+            let dataNotifHRD = JSON.parse(this.responseText).jumlah_notif_hrd
             console.log(JSON.parse(this.responseText).jumlah_approve);
-            if (dataNotif == 0) {
-              $(".ini_notif").hide()
-              document.querySelector(".ini_notif_bwh").innerHTML = dataNotif
+
+            if (role === 'HRD') {
+              $(".all_data").html(JSON.parse(this.responseText).display_all_html_hrd)
+              if (dataNotifHRD == 0) {
+
+                $(".ini_notif").hide()
+                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotifHRD
+
+              } else {
+
+                $(".ini_notif").show()
+                document.querySelector(".ini_notif").innerHTML = dataNotifHRD
+                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotifHRD
+
+              }
+
+              $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html_hrd)
+
             } else {
-              $(".ini_notif").show()
-              document.querySelector(".ini_notif").innerHTML = dataNotif
-              document.querySelector(".ini_notif_bwh").innerHTML = dataNotif
+
+              if (dataNotif == 0) {
+
+                $(".ini_notif").hide()
+                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotif
+
+              } else {
+
+                $(".ini_notif").show()
+                document.querySelector(".ini_notif").innerHTML = dataNotif
+                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotif
+
+              }
+
             }
-            $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
-            $(".all_data").html(JSON.parse(this.responseText).display_all_html)
 
             $("#futer").click(function(e){
               e.preventDefault()
@@ -1084,11 +1143,13 @@
 
               klikAll = 1;
               console.log(klikAll);
-              let getNama = $(this).data('from')
-              let dataId    = $(this).data('id')
-              let dataNama  = $(this).data('from')
-              let dataTitle = $(this).data('title')
-              let dataMain  = $(this).data('main')
+              let tempatBanner = document.querySelector("#banner_see")
+              let getNama      = $(this).data('from')
+              let dataId       = $(this).data('id')
+              let dataNama     = $(this).data('from')
+              let dataTitle    = $(this).data('title')
+              let dataGambar   = $(this).data('gambar')
+              let dataMain     = $(this).data('main')
 
               if (role === 'HRD') {
 
@@ -1118,6 +1179,7 @@
                 $("#from_ann_see").val(dataNama)
                 $("#via_ann_see").val("Admin")
                 $("#title_ann_see").val(dataTitle)
+                tempatBanner.setAttribute("src", `../img/${dataGambar}`)
                 $("#main_ann_see").val(dataMain)
 
                 $("#not_approve_see").show()
