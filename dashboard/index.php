@@ -105,6 +105,11 @@
       margin-right: auto;
     }
 
+    .popup-image {
+      overflow-y: scroll; 
+      height: 100%;
+    }
+
     .container .popup-image {
       position: fixed;
       top: 0; left: 100px;
@@ -129,12 +134,12 @@
     .container .popup-image img {
       position: absolute;
       top: 50%; left: 50%;
-      height: 80%;
+      height: 90%;
       transform: translate(-50%, -50%) scale(1);
       border: 5px solid #fff;
       border-radius: 5px;
-      width: 750px;
-      object-fit: cover;
+      width: auto;
+      object-fit: contain;
     }
 
     .pad {
@@ -185,12 +190,12 @@
       .container .popup-image img {
         position: absolute;
         top: 50%; left: 50%;
-        height: auto;
+        height: 60%;
         transform: translate(-50%, -50%) scale(1);
         border: 5px solid #fff;
         border-radius: 5px;
         width: 90%;
-        object-fit: cover;
+        object-fit: contain;
       }
     }
 
@@ -244,15 +249,15 @@
             <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-success ini_notif" id="count_message"> </span>
+                <span class="label label-success ini_notif_hrd" id="count_message_hrd"> </span>
               </a>
               <ul class="dropdown-menu">
 
-                <li class="header">You have <span class="ini_notif_bwh_all"></span> messages not yet approve</li>
+                <li class="header">You have <span class="ini_notif_bwh_all_hrd"></span> messages not yet approve</li>
 
                 <li>
 
-                <ul class="menu" id="isi_pengumuman">
+                <ul class="menu" id="isi_pengumuman_hrd">
                   
                   <!-- <?php foreach ($getDataMessage as $data): ?>
                     <li class="show_data" data-toggle="modal" data-id="<?= $data['message_id']; ?>" data-target="modal-default" data-from="<?= $data['nama_user']; ?>"
@@ -1035,22 +1040,23 @@
 
             if (role === 'HRD') {
               $(".all_data").html(JSON.parse(this.responseText).display_all_html_hrd)
+              $("#isi_pengumuman_hrd").html(JSON.parse(this.responseText).display_html_hrd)
+              document.querySelector(".ini_notif_bwh_all_hrd").innerHTML = dataNotifHRD
+              
               if (dataNotifHRD == 0) {
 
-                $(".ini_notif").hide()
-                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotifHRD
+                $(".ini_notif_hrd").hide()
 
               } else {
 
-                $(".ini_notif").show()
-                document.querySelector(".ini_notif").innerHTML = dataNotifHRD
-                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotifHRD
+                $(".ini_notif_hrd").show()
+                document.querySelector(".ini_notif_hrd").innerHTML         = dataNotifHRD
 
               }
 
-              $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html_hrd)
-
             } else {
+
+              $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
 
               if (dataNotif == 0) {
 

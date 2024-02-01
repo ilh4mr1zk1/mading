@@ -165,20 +165,25 @@
 
 	} else {
 
+		$userId = $_SESSION['user_id'];
+		// echo $userId;exit;
+
 		// Role Lain
-		$getShortDataNotifMessage  				= $user->getShortDataNotifMessage(2,3);
+		$getShortDataNotifMessage  				= $user->getShortDataNotifMessage(2,3, $userId);
 	 	$getAllDataApproveAndNotApproveMessage  = $user->getAllDataApproveAndNoApproveMessage(2,3);
 
 		// Role HRD
-		$getShortDataNotifMessageHRD  		= $user->getShortDataNotifMessage(1);
-	 	$getAllDataNotYetApproveMessageHRD 	= $user->getAllDataNotYetApproveMessage(1);
+		$getShortDataNotifMessageHRD  			= $user->getShortDataNotifMessageHRD(1);
+	 	$getAllDataNotYetApproveMessageHRD 		= $user->getAllDataNotYetApproveMessage(1);
 
-	 	$getAllDataApproveMessage       	= $user->getAllDataApproveMessage(2);
-	 	$countDataNotYetAprrove 		= $user->countDataMessage(2);
-	 	$countDataNotYetAprroveHRD 		= $user->countDataMessage();
+	 	$getAllDataApproveMessage       		= $user->getAllDataApproveMessage(2);
+	 	$countDataNotYetAprrove 				= $user->countDataMessage(2);
+	 	$countDataNotYetAprroveHRD 				= $user->countDataMessage();
+	 	// var_dump(count($getShortDataNotifMessageHRD));exit;
 
 		$arr = [];
 		$outputNyaHRD    = '';
+		$outputOtherRole = '';
 		$output_all      = '';
 		$output_all_hrd  = '';
 		$allDataApprove  = '';
@@ -300,7 +305,7 @@
 			for ($i=0; $i < count($getShortDataNotifMessage); $i++) {
 		    	$isiPesan = ''; 
 		    	$semuaPesan = strlen($getShortDataNotifMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataNotifMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataNotifMessage[$i]['isi_pesan'] . "</h4>";
-		    	$outputNyaHRD .= 
+		    	$outputOtherRole .= 
 				'
 					<li class="show_data" data-toggle="modal" data-id="'. $getShortDataNotifMessage[$i]['message_id'] .'" data-from="'. $getShortDataNotifMessage[$i]['nama_user'] .'" data-title="'. $getShortDataNotifMessage[$i]['judul_pesan'] .'" data-img="'. $getShortDataNotifMessage[$i]['image'] .'" data-main="'. $getShortDataNotifMessage[$i]['isi_pesan'] .'" data-target="modal-default">
 		                  <a href="#">
@@ -360,9 +365,10 @@
                <img src="default.jpg" id="gambar">
             </div>';
 
-	    $arr['jumlah_notif'] 			= 7; //$countDataNotYetAprrove;
+	    $arr['jumlah_notif'] 			= $countDataNotYetAprrove;
 	    $arr['jumlah_notif_hrd'] 		= $countDataNotYetAprroveHRD;
 		$arr['display_html_hrd'] 		= $outputNyaHRD;
+		$arr['display_html']	 		= $outputOtherRole;
 		$arr['display_all_html_hrd'] 	= $output_all_hrd;
 		$arr['count_message']			= count($getAllDataNotYetApproveMessageHRD);
 		$arr['display_html_approve']    = $allDataApprove;
