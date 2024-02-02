@@ -10,7 +10,27 @@
 
 	$status_approve = "";
 
-	
+	function getDateTimeDiff($tanggal) {
+    
+        date_default_timezone_set("Asia/Jakarta");
+        $now_timestamp = strtotime(date('Y-m-d H:i:s'));
+        $diff_timestamp = $now_timestamp - strtotime($tanggal);
+
+        if ($diff_timestamp < 60) {
+          return 'Beberapa detik yang lalu';
+        } else if ( $diff_timestamp >= 60 && $diff_timestamp < 3600 ) {
+          return round($diff_timestamp/60) . ' Menit yang lalu';
+        } else if ( $diff_timestamp >= 3600 && $diff_timestamp < 86400 ) {
+          return round($diff_timestamp/3600) . ' Jam yang lalu';
+        } else if ( $diff_timestamp >= 86400 && $diff_timestamp < (86400*30) ) {
+          return round($diff_timestamp/(86400)). ' Hari yang lalu';
+        } else if ( $diff_timestamp >= (86400*30) && $diff_timestamp < (86400*365) ) {
+          return round($diff_timestamp/(86400*30)) . ' Bulan yang lalu';
+        } else {
+          return round($diff_timestamp/(86400*365)) . ' Tahun yang lalu';
+        }
+
+    }
 
 	if (isset($_POST['message_title']) && isset($_POST['message_info']) && isset($_POST['status_approve']) && isset($_POST['id']) && isset($_POST['reason']) ) {
 		
@@ -176,7 +196,8 @@
 		$getShortDataNotifMessageHRD  			= $user->getShortDataNotifMessageHRD(1);
 	 	$getAllDataNotYetApproveMessageHRD 		= $user->getAllDataNotYetApproveMessage(1);
 
-	 	$getAllDataApproveMessage       		= $user->getAllDataApproveMessage(2);
+	 	$getAllDataApproveMessage               = $user->getAllDataApproveMessage();
+	 	$getAllDataApproveMessageById      		= $user->getAllDataApproveMessageById(2);
 	 	$countDataNotYetAprrove 				= $user->countDataMessage(2);
 	 	$countDataNotYetAprroveHRD 				= $user->countDataMessage();
 	 	// var_dump(count($getShortDataNotifMessageHRD));exit;
@@ -205,6 +226,7 @@
 		                    <h4>
 		                      <p style="font-size:10px;"> From : '. $getShortDataNotifMessageHRD[$i]['nama_user'] .' </p>
 		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
+		                      <small><i class="fa fa-clock-o"></i> '. getDateTimeDiff($getShortDataNotifMessageHRD[$i]['tanggal_buat_announcement'] ).' </small>
 		                    </h4>
 		                    ' . $semuaPesan . '
 		                  </a>
@@ -307,7 +329,7 @@
 		    	$semuaPesan = strlen($getShortDataNotifMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataNotifMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataNotifMessage[$i]['isi_pesan'] . "</h4>";
 		    	$outputOtherRole .= 
 				'
-					<li class="show_data" data-toggle="modal" data-id="'. $getShortDataNotifMessage[$i]['message_id'] .'" data-from="'. $getShortDataNotifMessage[$i]['nama_user'] .'" data-title="'. $getShortDataNotifMessage[$i]['judul_pesan'] .'" data-img="'. $getShortDataNotifMessage[$i]['image'] .'" data-main="'. $getShortDataNotifMessage[$i]['isi_pesan'] .'" data-target="modal-default">
+					<li class="show_data_status" data-toggle="modal" data-id="'. $getShortDataNotifMessage[$i]['message_id'] .'" data-from="'. $getShortDataNotifMessage[$i]['nama_user'] .'" data-title="'. $getShortDataNotifMessage[$i]['judul_pesan'] .'" data-time_approved="'. date('H:i:s', strtotime($getShortDataNotifMessage[$i]['tanggal_approve']) ) .'" data-img="'. $getShortDataNotifMessage[$i]['image'] .'" data-main="'. $getShortDataNotifMessage[$i]['isi_pesan'] .'" data-target="modal-default-status">
 		                  <a href="#">
 		                    <div class="pull-left">
 		                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
@@ -315,6 +337,7 @@
 		                    <h4>
 		                      <p style="font-size:10px;"> From : '. $getShortDataNotifMessage[$i]['nama_user'] .' </p>
 		                      <p style="font-size:10px;"> Via<span style="margin-left: 11px;"></span>: Admin </p>
+		                      <small><i class="fa fa-clock-o"></i> '. getDateTimeDiff($getShortDataNotifMessage[$i]['tanggal_approve'] ).' </small>
 		                    </h4>
 		                    ' . $semuaPesan . '
 		                  </a>
@@ -365,15 +388,17 @@
                <img src="default.jpg" id="gambar">
             </div>';
 
-	    $arr['jumlah_notif'] 			= $countDataNotYetAprrove;
 	    $arr['jumlah_notif_hrd'] 		= $countDataNotYetAprroveHRD;
 		$arr['display_html_hrd'] 		= $outputNyaHRD;
-		$arr['display_html']	 		= $outputOtherRole;
 		$arr['display_all_html_hrd'] 	= $output_all_hrd;
+
+	    $arr['jumlah_notif'] 			= $countDataNotYetAprrove;
+		$arr['display_html']	 		= $outputOtherRole;
 		$arr['count_message']			= count($getAllDataNotYetApproveMessageHRD);
 		$arr['display_html_approve']    = $allDataApprove;
-		$arr['jumlah_approve'] 			= $getAllDataApproveMessage;
+		$arr['jumlah_approve_by_id'] 	= count($getAllDataApproveMessageById);
 		$arr['upload_img'] 				= $forImage;
+		$arr['all_data'] 				= count($getAllDataApproveMessage);
 
 		echo json_encode($arr);
 

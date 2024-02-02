@@ -6,9 +6,9 @@
     error_reporting();
 
 	// Cek status login user jika tidak ada session
-    if (!$user->isLoggedIn()) {  
-        header("location:/mading"); //Redirect ke halaman login  
-    }  
+  if (!$user->isLoggedIn()) {  
+    header("location:/mading"); //Redirect ke halaman login  
+  }
 
 	$nama_user = $_SESSION['nama_user'];
   $name_role = $_SESSION['name_role'];
@@ -148,6 +148,14 @@
       margin-right: auto;
     }
 
+    #modal-body-semua {
+      height: 420px;
+    }
+
+    #content_all_body {
+      height: 400px;
+    }
+
     @media (max-width:768px) {
 
       .bnnr {
@@ -156,7 +164,7 @@
       }
 
       #modal-content-semua {
-        margin-top: 30%;
+        margin-top: 5%;
         width: 80%;
         margin-left: auto;
         margin-right: auto;
@@ -332,16 +340,56 @@
 
             <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-success ini_notif" id="count_message"> </span>
+                <i class="fa fa-fw fa-thumbs-o-up"></i>
+                <span class="label label-success notif_setuju"> </span>
               </a>
               <ul class="dropdown-menu">
 
-                <li class="header">You have <span class="ini_notif_bwh_all"></span> messages not approve</li>
+                <li class="header">You have <span class="ini_notif_setuju_bwh_all"></span> notice was approved </li>
 
                 <li>
 
-                <ul class="menu" id="isi_pengumuman">
+                <ul class="menu" id="isi_pengumuman_approved">
+        
+                </ul>
+
+                <li class="footer" style="cursor: pointer;">
+                  <a href="" id="futer_approved"> See All Messages </a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-fw fa-thumbs-o-down"></i>
+                <span class="label label-success notif_tidak_disetujui"> </span>
+              </a>
+              <ul class="dropdown-menu">
+
+                <li class="header">You have <span class="ini_notif_tidak_disetujui_bwh_all"></span> messages not approved </li>
+
+                <li>
+
+                <ul class="menu" id="isi_pengumuman_not_approved">
+        
+                </ul>
+
+              </ul>
+            </li>
+
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-hourglass-2"></i>
+                <span class="label label-success notif_waiting_confirm"> </span>
+              </a>
+              <ul class="dropdown-menu">
+
+                <li class="header">Waiting <span class="ini_notif_waiting_bwh_all"> 3 </span> Confirmation Announcement!</li>
+
+                <li>
+
+                <ul class="menu" id="isi_pengumuman_waiting">
         
                 </ul>
 
@@ -533,6 +581,65 @@
     <!-- /.modal-dialog -->
   </div>
 
+  <div class="modal fade" id="modal-default-status">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="border-bottom-color: white;">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <center>
+              <h4 class="modal-title"> <strong> Announcement Approved </strong> </h4>
+            </center>
+        </div>
+        <div class="modal-body" style="margin-bottom: 10px;">
+
+            <div class="box-body" style="padding-left: 60px; padding-right: 60px;">
+
+              <form role="form" id="forms">
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Status : <strong style="color: green;"> Approved </strong> <i class="fa fa-fw fa-check" style="color: yellowgreen;"></i> </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Time Approved : <strong id="time_approved">  </strong> </label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="title_ann_approved">Title Announcement</label>
+                  <input type="text" id="title_ann_approved" readonly class="form-control" placeholder="Title Announcement ...">
+                </div>
+
+                <div class="form-group gambar_banner">
+                  <label for="banner_approved"> Banner </label>
+                  <img class="img-responsive pad" id="banner_approved" alt="Photo">
+                </div>
+
+                <div class="form-group">
+                  <label for="main_ann_approved">Announcement</label>
+                  <textarea style="height: 150px;" readonly class="form-control" id="main_ann_approved" rows="3" placeholder="Announcement ..."></textarea>
+                </div>
+
+              </form>
+
+            </div>
+
+        </div>
+
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
   <div class="modal fade" id="modal-default-all">
     <div class="modal-dialog">
       <div class="modal-content" id="modal-content-semua">
@@ -543,10 +650,10 @@
               <h4 class="modal-title"> Announcement </h4>
             </center>
         </div>
-        <div class="modal-body" id="modal-body-semua" style="height:315px;">
+        <div class="modal-body" id="modal-body-semua">
           <!-- <ul class="menu" id="isi_pengumumans">
           </ul> -->
-          <section class="content" style="overflow-y: scroll; height: 300px;">
+          <section class="content" id="content_all_body" style="overflow-y: scroll;">
 
             <!-- Default box -->
             <div class="box all_data" style="cursor: pointer;">
@@ -1034,9 +1141,9 @@
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
 
-            let dataNotif    = JSON.parse(this.responseText).jumlah_notif
-            let dataNotifHRD = JSON.parse(this.responseText).jumlah_notif_hrd
-            console.log(JSON.parse(this.responseText).jumlah_approve);
+            let dataNotifById    = JSON.parse(this.responseText).jumlah_approve_by_id
+            let dataNotifHRD     = JSON.parse(this.responseText).jumlah_notif_hrd
+            console.log(JSON.parse(this.responseText).all_data);
 
             if (role === 'HRD') {
               $(".all_data").html(JSON.parse(this.responseText).display_all_html_hrd)
@@ -1056,18 +1163,18 @@
 
             } else {
 
-              $("#isi_pengumuman").html(JSON.parse(this.responseText).display_html)
+              $("#isi_pengumuman_approved").html(JSON.parse(this.responseText).display_html)
 
-              if (dataNotif == 0) {
+              if (dataNotifById == 0) {
 
-                $(".ini_notif").hide()
-                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotif
+                $(".notif_setuju").hide()
+                document.querySelector(".ini_notif_setuju_bwh_all").innerHTML = dataNotifById
 
               } else {
 
-                $(".ini_notif").show()
-                document.querySelector(".ini_notif").innerHTML = dataNotif
-                document.querySelector(".ini_notif_bwh_all").innerHTML = dataNotif
+                $(".notif_setuju").show()
+                document.querySelector(".notif_setuju").innerHTML = dataNotifById
+                document.querySelector(".ini_notif_setuju_bwh_all").innerHTML = dataNotifById
 
               }
 
@@ -1141,6 +1248,25 @@
                 $("#main_ann").val(dataIsi)
 
               }
+
+            })
+
+            $(".show_data_status").click(function(e) {
+              e.preventDefault();
+
+              const image   = document.querySelector("img[id='banner_approved']")
+              let timeApproved  = $(this).data('time_approved')
+              let dataId        = $(this).data('id')
+              let dataTitle     = $(this).data('title')
+              let dataImage     = $(this).data('img')
+              let dataMain      = $(this).data('main')
+
+              $("#modal-default-status").modal('show')
+
+              $("#title_ann_approved").val(dataTitle)
+              image.setAttribute("src", `../img/${dataImage}`)
+              $("#main_ann_approved").val(dataMain)
+              $("#time_approved").html(timeApproved)
 
             })
 
