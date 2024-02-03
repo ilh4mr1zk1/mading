@@ -203,12 +203,13 @@
 	 	// var_dump(count($getShortDataNotifMessageHRD));exit;
 
 		$arr = [];
-		$outputNyaHRD    = '';
-		$outputOtherRole = '';
-		$output_all      = '';
-		$output_all_hrd  = '';
-		$allDataApprove  = '';
-		$forImage        = '';
+		$outputNyaHRD    	 = '';
+		$outputOtherRole 	 = '';
+		$output_all      	 = '';
+		$output_all_hrd  	 = '';
+		$output_all_approve  = '';
+		$allDataApprove  	 = '';
+		$forImage        	 = '';
 
 		// Role HRD
 		if (count($getShortDataNotifMessageHRD) != 0) {
@@ -329,7 +330,7 @@
 		    	$semuaPesan = strlen($getShortDataNotifMessage[$i]['isi_pesan']) > 27 ? $isiPesan .= "<h4>" . substr($getShortDataNotifMessage[$i]['isi_pesan'], 0, 27) . " ...." . "</h4>" : "<h4>". $getShortDataNotifMessage[$i]['isi_pesan'] . "</h4>";
 		    	$outputOtherRole .= 
 				'
-					<li class="show_data_status" data-toggle="modal" data-id="'. $getShortDataNotifMessage[$i]['message_id'] .'" data-from="'. $getShortDataNotifMessage[$i]['nama_user'] .'" data-title="'. $getShortDataNotifMessage[$i]['judul_pesan'] .'" data-time_approved="'. date('H:i:s', strtotime($getShortDataNotifMessage[$i]['tanggal_approve']) ) .'" data-img="'. $getShortDataNotifMessage[$i]['image'] .'" data-main="'. $getShortDataNotifMessage[$i]['isi_pesan'] .'" data-target="modal-default-status">
+					<li class="show_data_status" data-toggle="modal" data-id="'. $getShortDataNotifMessage[$i]['message_id'] .'" data-from="'. $getShortDataNotifMessage[$i]['nama_user'] .'" data-title="'. $getShortDataNotifMessage[$i]['judul_pesan'] .'" data-time_approved="'. date('d M Y  H:i:s', strtotime($getShortDataNotifMessage[$i]['tanggal_approve']) ) .'" data-img="'. $getShortDataNotifMessage[$i]['image'] .'" data-main="'. $getShortDataNotifMessage[$i]['isi_pesan'] .'" data-target="modal-default-status">
 		                  <a href="#">
 		                    <div class="pull-left">
 		                      <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
@@ -377,6 +378,27 @@
 		        ';
 		    }
 
+		    for ($i=0; $i < count($getAllDataApproveMessageById); $i++) { 
+
+		    	$output_all_approve .=
+		    	'
+		    		<div>
+		              	<div class="box-body" style="background-color: #ddd; margin-top: -20px; border: 3px solid black;">
+			              	<div class="box-body detail_status" data-toggle="modal" data-time_approved="'. date('d M Y H:i:s', strtotime($getAllDataApproveMessageById[$i]['tgl_approve'])) .'" data-id="'. $getAllDataApproveMessageById[$i]['message_id'] .'" data-from="'. $getAllDataApproveMessageById[$i]['nama_user'] .'" data-title="'. $getAllDataApproveMessageById[$i]['judul_pesan'] .'" data-main="'. $getAllDataApproveMessageById[$i]['isi_pesan'] .'" data-banner="'. $getAllDataApproveMessageById[$i]['banner'] .'" data-target="modal-default" style="position: relative; width: 100%; margin-bottom: 15px;">
+				                
+				                <p style="font-size:13px;"> Title <span style="margin-left: 60px;"> : </span> <strong> '. $getAllDataApproveMessageById[$i]['judul_pesan'] .' </strong> </p>
+				                <p style="font-size:13px;"> Announcement : '. $getAllDataApproveMessageById[$i]['isi_pesan'] .' </p>
+				                <p style="font-size:13px;"> Date Approved : '. date('d M Y H:i:s', strtotime($getAllDataApproveMessageById[$i]['tgl_approve'])) .' </p>
+				               
+				            </div>
+			            </div>
+		            </div>
+		            <br>
+		            <br>
+		    	';
+
+		    }
+
 		}
 
 		// Akhir Role Lain
@@ -394,6 +416,7 @@
 
 	    $arr['jumlah_notif'] 			= $countDataNotYetAprrove;
 		$arr['display_html']	 		= $outputOtherRole;
+		$arr['display_all_html'] 		= $output_all_approve;
 		$arr['count_message']			= count($getAllDataNotYetApproveMessageHRD);
 		$arr['display_html_approve']    = $allDataApprove;
 		$arr['jumlah_approve_by_id'] 	= count($getAllDataApproveMessageById);

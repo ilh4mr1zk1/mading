@@ -105,6 +105,12 @@
       margin-right: auto;
     }
 
+    #modal-content-semua-status {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .popup-image {
       overflow-y: scroll; 
       height: 100%;
@@ -152,8 +158,33 @@
       height: 420px;
     }
 
+    #modal-body-semua-status {
+      height: 420px;
+    }
+
     #content_all_body {
       height: 400px;
+    }
+
+    #content_all_body_status {
+      height: 400px;
+    }
+
+    .box {
+      position: relative;
+      border-radius: 3px;
+      background: #ffffff;
+      margin-bottom: 20px;
+      width: 100%;
+      border-top: 0;
+      box-shadow: 0;
+    }
+
+    @media (min-width: 992px) {
+      .timeApproved {
+        width: 55%;
+        margin-left: -5%;
+      }
     }
 
     @media (max-width:768px) {
@@ -170,7 +201,18 @@
         margin-right: auto;
       }
 
+      #modal-content-semua-status {
+        margin-top: 5%;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       #modal-content-semua #modal-body-semua {
+        padding: 10px;
+      }
+
+      #modal-content-semua-status #modal-body-semua-status {
         padding: 10px;
       }
 
@@ -353,7 +395,7 @@
         
                 </ul>
 
-                <li class="footer" style="cursor: pointer;">
+                <li class="footer" id="futer_approved" style="cursor: pointer;">
                   <a href="" id="futer_approved"> See All Messages </a>
                 </li>
 
@@ -581,6 +623,73 @@
     <!-- /.modal-dialog -->
   </div>
 
+  <div class="modal fade" tabindex="-1" role="dialog" id="modal-default-see-status">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="border-bottom-color: white;">
+          <button type="button" class="close" id="tutup_see_status" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <center>
+              <h4 class="modal-title"> <strong> Announcement Approved </strong> </h4>
+            </center>
+        </div>
+        <div class="modal-body" style="margin-bottom: 10px; height: 450px;">
+
+            <div class="box-body" style="padding-left: 60px; padding-right: 60px; overflow-y: scroll; height: 425px;">
+
+              <form role="form" id="forms">
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Status : <strong style="color: green;"> Approved </strong> <i class="fa fa-fw fa-check" style="color: yellowgreen;"></i> </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 timeApproved">
+                    <div class="form-group">
+                      <label> Time Approved : <strong id="time_approved_status">  </strong> </label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="title_ann_see_status">Title Announcement</label>
+                  <input type="text" id="title_ann_see_status" class="form-control" placeholder="Title Announcement ...">
+                </div>
+
+                <div class="form-group gambar_banner_see">
+                  <label for="banner_see_status"> Banner </label>
+                  <img class="img-responsive pad" id="banner_see_status" alt="Photo">
+                </div>
+
+                <div class="form-group">
+                  <label for="main_ann_see_status">Announcement</label>
+                  <textarea style="height: 150px;" class="form-control" id="main_ann_see_status" rows="3" placeholder="Announcement ..."></textarea>
+                </div>
+
+                <div class="form-group reason_see">
+                  <label for="reason">Reason (Optional)</label>
+                  <input type="text" id="reason_see" class="form-control" placeholder="Reason ... (Optional)">
+                </div>
+
+              </form>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close_approve_see_status" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" id="cancel_not_approve_see_status" class="btn btn-primary">Edit</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
   <div class="modal fade" id="modal-default-status">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -591,6 +700,7 @@
               <h4 class="modal-title"> <strong> Announcement Approved </strong> </h4>
             </center>
         </div>
+
         <div class="modal-body" style="margin-bottom: 10px;">
 
             <div class="box-body" style="padding-left: 60px; padding-right: 60px;">
@@ -605,7 +715,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6 timeApproved">
                     <div class="form-group">
                       <label> Time Approved : <strong id="time_approved">  </strong> </label>
                     </div>
@@ -632,6 +742,11 @@
 
             </div>
 
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="close_approve" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" id="edit" class="btn btn-primary pull-right" data-dismiss="modal">Edit</button>
         </div>
 
       </div>
@@ -666,6 +781,39 @@
         </div>
         <div class="modal-footer">
           <button type="button" id="close_approve" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <div class="modal fade" id="modal-default-all-status">
+    <div class="modal-dialog">
+      <div class="modal-content" id="modal-content-semua-status">
+        <div class="modal-header" style="border-bottom-color: white;">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <center>
+              <h4 class="modal-title"> <strong> All Announcement Approved </strong> </h4>
+            </center>
+        </div>
+        <div class="modal-body" id="modal-body-semua-status">
+          <!-- <ul class="menu" id="isi_pengumumans">
+          </ul> -->
+          <section class="content" id="content_all_body_status" style="overflow-y: scroll;">
+
+            <!-- Default box -->
+            <div class="box all_data_status" style="cursor: pointer; padding: 10px;">
+              
+            </div>
+            <!-- /.box -->
+
+          </section>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="close_approve_status" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -941,17 +1089,20 @@
     
     const user_id           = `<?= $user_id; ?>`;
     
-    const id              = document.querySelector("#id_ann")
-    const from            = document.querySelector("#from_ann")
-    const via             = document.querySelector("#via_ann")
-    const title           = document.querySelector("#title_ann")
-    const main            = document.querySelector("#main_ann")
+    const id               = document.querySelector("#id_ann")
+    const from             = document.querySelector("#from_ann")
+    const via              = document.querySelector("#via_ann")
+    const title            = document.querySelector("#title_ann")
+    const main             = document.querySelector("#main_ann")
 
-    const id_see          = document.querySelector("#id_ann_see")
-    const from_see        = document.querySelector("#from_ann_see")
-    const via_see         = document.querySelector("#via_ann_see")
-    const title_see       = document.querySelector("#title_ann_see")
-    const main_see        = document.querySelector("#main_ann_see")
+    const id_see           = document.querySelector("#id_ann_see")
+    const from_see         = document.querySelector("#from_ann_see")
+    const via_see          = document.querySelector("#via_ann_see")
+    const title_see        = document.querySelector("#title_ann_see")
+    const main_see         = document.querySelector("#main_ann_see")
+
+    const title_see_status = document.querySelector("#title_ann_see_status");
+    const main_see_status  = document.querySelector("#main_ann_see_status");
 
     let countDataMessage  = `<?= $countDataMessage; ?>`
     console.log(role);
@@ -1163,6 +1314,7 @@
 
             } else {
 
+              $(".all_data_status").html(JSON.parse(this.responseText).display_all_html)
               $("#isi_pengumuman_approved").html(JSON.parse(this.responseText).display_html)
 
               if (dataNotifById == 0) {
@@ -1181,8 +1333,14 @@
             }
 
             $("#futer").click(function(e){
-              e.preventDefault()
+              e.preventDefault();
               $("#modal-default-all").modal('show')
+            })
+
+
+            $("#futer_approved").click(function(e) {
+              e.preventDefault();
+              $("#modal-default-all-status").modal('show');
             })
 
             $(".show_data").click(function(e){
@@ -1331,6 +1489,32 @@
 
               }
             })
+
+            $(".detail_status").click(function(e) {
+              e.preventDefault()
+
+              let dataTitle         = $(this).data("title");
+              let tempatBanner      = document.querySelector("#banner_see_status")
+              let dataBanner        = $(this).data('banner')
+              let dataMain          = $(this).data('main')
+              let dataDateApproved  = $(this).data('time_approved')
+
+              $("#modal-default-see-status").modal('show');
+              $("#modal-default-all-status").modal("hide");
+
+              title_see_status.setAttribute("readonly", "")
+              title_see_status.style.backgroundColor = '#eee'
+
+              main_see_status.setAttribute("readonly", "")
+              main_see_status.style.backgroundColor = '#eee'
+
+              title_see_status.value = dataTitle
+              tempatBanner.setAttribute("src", `../img/${dataBanner}`)
+              main_see_status.value  = dataMain
+              $("#time_approved_status").html(dataDateApproved)
+
+            })
+
           }
         };
 
@@ -1352,8 +1536,13 @@
       $("#approve_see").show()
     })
 
+    $("#tutup_see_status").click(function(e){
+      e.preventDefault()
+      $("#modal-default-all-status").modal("show")
+    })
+
     $("#close_approve_see").click(function(e){
-      e.preventDefault
+      e.preventDefault()
       $("#modal-default-all").modal("show")
       $(".reason_see").hide()
       $("#approve_see").hide()
@@ -1362,6 +1551,11 @@
       $("#not_approve_see").show()
       $("#cancel_not_approve_see").hide()
       $("#approve_see").show()
+    })
+
+    $("#close_approve_see_status").click(function(e) {
+      e.preventDefault()
+      $("#modal-default-all-status").modal("show")
     })
 
     loadData()
