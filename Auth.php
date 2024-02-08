@@ -240,8 +240,8 @@ class Auth {
                     LEFT JOIN users
                     ON message_approve.user_id = users.id
                     WHERE message_approve.status_approve = :stat_approve
-                    order by message_approve.id DESC
-                    LIMIT 0, 3 ");
+                    order by message_approve.tanggal_buat_announcement DESC
+                    LIMIT 0, 5");
             $getDataNotif->bindParam(":stat_approve", $status_approve);
             $getDataNotif->execute();
             $getDataNotif->rowCount();
@@ -261,18 +261,111 @@ class Auth {
 
     }
 
-    public function getShortDataNotifMessage($status_approve, $status_approve_2, $userId) {
+    public function getShortDataNotifMessageApprove($status_approve, $userId) {
         try {
 
             $getDataNotif   = $this->db->prepare("
-                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.image as image, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, message_approve.tanggal_approve as tanggal_approve, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.image as image, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, message_approve.tanggal_konfirmasi as tanggal_konfirmasi, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
                 LEFT JOIN users
                 ON message_approve.user_id = users.id
-                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve OR message_approve.status_approve = :stat_approve_2
-                order by message_approve.tanggal_approve DESC
+                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve
+                order by message_approve.tanggal_konfirmasi DESC
                 LIMIT 0, 5 ");
             $getDataNotif->bindParam(":stat_approve", $status_approve);
-            $getDataNotif->bindParam(":stat_approve_2", $status_approve_2);
+            $getDataNotif->execute();
+            $getDataNotif->rowCount();
+            $data = $getDataNotif->fetchAll();
+            $hitungDataNotif = $getDataNotif->rowCount();
+
+            return $data;
+
+        } catch (Exception $e) {
+            
+            echo $e->getMessage();
+
+            return false;
+
+        }
+    }
+
+    public function waitingDataResponse($status_approve, $userId) {
+        try {
+
+            $getDataNotif   = $this->db->prepare("
+                SELECT 
+                message_approve.id as message_id, 
+                message_approve.message_title as judul_pesan, 
+                message_approve.image as banner, 
+                message_approve.message_info as isi_pesan, 
+                message_approve.status_approve as status_approve, 
+                message_approve.user_id as user_id, 
+                message_approve.tanggal_konfirmasi as tanggal_konfirmasi,
+                message_approve.tanggal_buat_announcement as tanggal_buat_announcement
+                FROM message_approve 
+                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve
+                order by message_approve.tanggal_buat_announcement DESC");
+            $getDataNotif->bindParam(":stat_approve", $status_approve);
+            $getDataNotif->execute();
+            $getDataNotif->rowCount();
+            $data = $getDataNotif->fetchAll();
+
+            return $data;
+
+        } catch (Exception $e) {
+            
+            echo $e->getMessage();
+
+            return false;
+
+        }
+    }
+
+    public function getShortDataWaitingMessage($status_approve, $userId) {
+        try {
+
+            $getDataNotif   = $this->db->prepare("
+                SELECT 
+                message_approve.id as message_id, 
+                message_approve.message_title as judul_pesan, 
+                message_approve.image as image, 
+                message_approve.message_info as isi_pesan, 
+                message_approve.status_approve as status_approve, 
+                message_approve.user_id as user_id, 
+                message_approve.tanggal_konfirmasi as tanggal_konfirmasi,
+                message_approve.tanggal_buat_announcement as tanggal_buat_announcement
+                FROM message_approve 
+                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve
+                order by message_approve.tanggal_buat_announcement DESC
+                LIMIT 0, 5");
+            $getDataNotif->bindParam(":stat_approve", $status_approve);
+            $getDataNotif->execute();
+            $getDataNotif->rowCount();
+            $data = $getDataNotif->fetchAll();
+
+            return $data;
+
+        } catch (Exception $e) {
+            
+            echo $e->getMessage();
+
+            return false;
+
+        }
+    }
+
+    public function getShortDataNotifMessageNotApprove($status_approve, $userId) {
+        try {
+
+            $getDataNotif   = $this->db->prepare("
+                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, reason.reason as alasan_tidak_disetujui, message_approve.image as image, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, message_approve.tanggal_konfirmasi as tanggal_konfirmasi, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                LEFT JOIN users
+                ON message_approve.user_id = users.id
+                LEFT JOIN reason
+                ON message_approve.id = reason.message_id
+                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve
+                order by message_approve.tanggal_konfirmasi DESC
+                LIMIT 0, 5");
+            $getDataNotif->bindParam(":stat_approve", $status_approve);
             $getDataNotif->execute();
             $getDataNotif->rowCount();
             $data = $getDataNotif->fetchAll();
@@ -296,11 +389,22 @@ class Auth {
                 
                 // echo "Masuk Ke if $status_approve";exit;
                 $getDataNotif   = $this->db->prepare("
-                    SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.image as gambar, message_approve.message_info as isi_pesan, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                    SELECT 
+                    message_approve.id as message_id, 
+                    message_approve.message_title as judul_pesan, 
+                    message_approve.image as gambar, 
+                    message_approve.message_info as isi_pesan, 
+                    message_approve.status_approve as status_approve, 
+                    message_approve.user_id as user_id, 
+                    message_approve.tanggal_buat_announcement as tanggal_buat_announcement, 
+                    users.id as id_users, 
+                    users.nama_user as nama_user, 
+                    users.email as email 
+                    FROM message_approve 
                     LEFT JOIN users
                     ON message_approve.user_id = users.id
                     WHERE message_approve.status_approve = :stat_approve 
-                    order by message_approve.id DESC");
+                    order by message_approve.tanggal_buat_announcement DESC");
                 $getDataNotif->bindParam(":stat_approve", $status_approve);
                 $getDataNotif->execute();
                 $getDataNotif->rowCount();
@@ -370,11 +474,11 @@ class Auth {
 
             // echo "Masuk Ke if $status_approve";exit;
             $getDataNotif   = $this->db->prepare("
-                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.tanggal_approve as tgl_approve, message_approve.image as banner, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.tanggal_konfirmasi as tgl_approve, message_approve.image as banner, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
                 LEFT JOIN users
                 ON message_approve.user_id = users.id
                 WHERE message_approve.status_approve = 2 
-                order by message_approve.tanggal_approve DESC");
+                order by message_approve.tanggal_konfirmasi DESC");
             $getDataNotif->execute();
             $getDataNotif->rowCount();
             $data = $getDataNotif->fetchAll();
@@ -393,18 +497,18 @@ class Auth {
         }
     }    
 
-    public function getAllDataApproveMessageById($status_approve) {
+    public function getAllDataStatusApproveMessageById($status_approve) {
         try {
 
             $userId = $_SESSION['user_id'];
   
             // echo "Masuk Ke if $status_approve";exit;
             $getDataNotif   = $this->db->prepare("
-                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.tanggal_approve as tgl_approve, message_approve.image as banner, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
+                SELECT message_approve.id as message_id, message_approve.message_title as judul_pesan, message_approve.message_info as isi_pesan, message_approve.tanggal_konfirmasi as tgl_approve, message_approve.image as banner, message_approve.status_approve as status_approve, message_approve.user_id as user_id, users.id as id_users, users.nama_user as nama_user, users.email as email FROM message_approve 
                 LEFT JOIN users
                 ON message_approve.user_id = users.id
                 WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve 
-                order by message_approve.tanggal_approve DESC");
+                order by message_approve.tanggal_konfirmasi DESC");
             $getDataNotif->bindParam(":stat_approve", $status_approve);
             $getDataNotif->execute();
             $getDataNotif->rowCount();
@@ -424,6 +528,55 @@ class Auth {
         }
     }    
 
+    public function getAllDataStatusNotApproveMessageById($status_approve) {
+        try {
+
+            $userId = $_SESSION['user_id'];
+  
+            // echo "Masuk Ke if $status_approve";exit;
+            $getDataNotif   = $this->db->prepare("
+                SELECT 
+                message_approve.id as message_id, 
+                message_approve.message_title as judul_pesan, 
+                message_approve.message_info as isi_pesan, 
+                reason.reason as alasan_tidak_disetujui,
+                message_approve.tanggal_konfirmasi as tgl_approve, 
+                message_approve.image as banner, 
+                message_approve.status_approve as status_approve, 
+                message_approve.tanggal_buat_announcement as tanggal_buat_announcement,
+                message_approve.user_id as user_id, 
+                users.id as id_users, 
+                users.nama_user as nama_user, 
+                users.email as email 
+                FROM message_approve 
+                LEFT JOIN users
+                ON message_approve.user_id = users.id
+                LEFT JOIN reason
+                ON message_approve.id = reason.message_id
+                WHERE message_approve.user_id = $userId AND message_approve.status_approve = :stat_approve 
+                order by message_approve.tanggal_konfirmasi DESC");
+            $getDataNotif->bindParam(":stat_approve", $status_approve);
+            $getDataNotif->execute();
+            $getDataNotif->rowCount();
+            $data = $getDataNotif->fetchAll();
+            $hitungDataNotif = $getDataNotif->rowCount();
+            // for ($i=0; $i < $hitungDataNotif; $i++) { 
+            //     echo $data[$i]['message_title'] . "<br>";
+            // }
+
+            // var_dump($data);exit;
+
+            return $data;
+
+        } catch (Exception $e) {
+            
+            echo $e->getMessage();
+
+            return false;
+
+        }
+    }
+
     public function updateDataApprove($message_title, $message_info, $status_approve, $id) {
 
         try {
@@ -431,7 +584,7 @@ class Auth {
             date_default_timezone_set("Asia/Jakarta");
             $dateNow = date("Y-m-d H:i:s");
 
-            $queryUpdate   = $this->db->prepare("UPDATE mading_practice.message_approve SET tanggal_approve = '$dateNow', status_approve = '$status_approve' WHERE id = :id ");
+            $queryUpdate   = $this->db->prepare("UPDATE mading_practice.message_approve SET tanggal_konfirmasi = '$dateNow', status_approve = '$status_approve' WHERE id = :id ");
             $queryUpdate->bindParam(":id", $id);
             $queryUpdate->execute();
 
