@@ -1,13 +1,16 @@
 <?php  
 
 	require_once "../dbconfig.php";
-  // require 'data.php';
-
-    error_reporting();
 
 	// Cek status login user jika tidak ada session
-  if (!$user->isLoggedIn()) {  
+  if (!$user->isLoggedIn()) { 
     header("location:/mading"); //Redirect ke halaman login  
+  }
+
+  $error = '';
+
+  if ($_SESSION['nama_user'] != true) {
+    $error = 1;
   }
 
 	$nama_user = $_SESSION['nama_user'];
@@ -52,8 +55,6 @@
     LEFT JOIN users
     ON message.user_id = users.id
   ";
-
-  // $getDataMessage = mysqli_query($koneksi, $queryDataMessage);
 
 ?><!DOCTYPE html>
 <html>
@@ -474,7 +475,6 @@
                 <span class="label label-success notif_tidak_disetujui"> </span>
               </a>
               <ul class="dropdown-menu">
-
                 <li class="header">You have <span class="ini_notif_tidak_disetujui_bwh_all"></span> announcement not approved </li>
 
                 <li>
@@ -1489,7 +1489,8 @@
     
     let role              = `<?= $name_role; ?>` 
     
-    const user_id           = `<?= $user_id; ?>`;
+    const error           = `<?= $error; ?>`;
+    const user_id         = `<?= $user_id; ?>`;
     
     const id                            = document.querySelector("#id_ann")
     const from                          = document.querySelector("#from_ann")
@@ -1706,7 +1707,7 @@
             let dataNotifNotApproveById   = JSON.parse(this.responseText).jumlah_not_approve_by_id;
             let dataNotifWaitingResponse  = JSON.parse(this.responseText).count_waiting_response;
 
-            console.log(JSON.parse(this.responseText).all_data);
+            // console.log(JSON.parse(this.responseText).all_data);
 
             if (role === 'HRD') {
               $(".all_data").html(JSON.parse(this.responseText).display_all_html_hrd);
@@ -1825,7 +1826,8 @@
             }
 
             $(".show_data").click(function(e){
-              e.preventDefault()
+              e.preventDefault();
+
               const image = document.querySelector("img[id='banner']")
               let dataId     = $(this).data('id')
               let dataNama   = $(this).data('from')
@@ -1955,7 +1957,7 @@
             })
 
             $(".ksg").click(function(e){
-              e.preventDefault()
+              e.preventDefault();
 
               klikAll = 1;
               console.log(klikAll);
@@ -2015,6 +2017,7 @@
                 $("#main_ann").val(dataIsi)
 
               }
+
             })
 
             $(".detail_status").click(function(e) {

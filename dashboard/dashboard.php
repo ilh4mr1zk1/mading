@@ -1,4 +1,14 @@
+<?php  
 
+  require_once "../dbconfig.php";
+
+  error_reporting(0);  
+
+  if ($_SESSION['nama_user'] != true) {
+    echo "<script>window.location.href = '/mading'  </script>";
+  }
+
+?>
 
  <!-- Content Header (Page header) -->
     <section class="content-header">

@@ -82,6 +82,7 @@ class Auth {
                     $_SESSION['nama_user']  = $data['nama_user'];
                     $_SESSION['name_role']  = $data['name_role'];
                     $_SESSION['user_id']    = $data['id_users'];
+                    $_SESSION['token_id']   = "HPnD6j4yg0";
                     return true;
                 } else {    
                     // echo "Salah";exit;
@@ -117,6 +118,8 @@ class Auth {
 
         if (isset($_SESSION['nama_user']) ) {
             return true;
+        } else {
+            return false;
         }
 
     }

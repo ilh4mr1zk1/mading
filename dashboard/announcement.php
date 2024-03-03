@@ -1,4 +1,11 @@
 <?php  
+  
+  require_once "../dbconfig.php";
+  
+  error_reporting(0);  
+  if ($_SESSION['nama_user'] != true) {
+    echo "<script>window.location.href = '/mading'  </script>";
+  }
 
   if (isset($_POST['isi_title']) && isset($_POST['user_id'])) {
     // echo $_POST['isi_title'];

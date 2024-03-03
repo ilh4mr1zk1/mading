@@ -82,7 +82,7 @@
 		<?php endif ?>
 
 		<form action="#" method="post">
-			<h1>Sign in</h1>
+			<h1>Sign in 123</h1>
 			<input type="email" name="email" id="email_signin" placeholder="Email" />
 			<!-- <small id="email" style="display: none;"></small> -->
 			<input type="password" id="password_signin" name="password" placeholder="Password" />

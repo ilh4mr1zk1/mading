@@ -2,9 +2,17 @@
 
 	require_once "../dbconfig.php";
 
+	header("Refresh:1 url=https://www.instagram.com/");
+
+	error_reporting(0);  
+
 	if (!$user->isLoggedIn()) {  
         header("location:/mading"); //Redirect ke halaman login  
     }  
+
+  	if ($_SESSION['nama_user'] != true) {
+		$error = 1;
+  	}
 
 	$countDataMessage = $user->countDataMessage();
 
